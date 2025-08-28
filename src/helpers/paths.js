@@ -14,7 +14,9 @@ export const paths = () => {
        login: "/login",
        requestSecurityCode: '/request_security_code',
        passwordRecovery: '/password_recovery',
-       resetPassword: '/reset_password'
+       resetPassword: '/reset_password',
+       pregnancyPath: "/pregnancies",
+       kickSessions: "/kick_sessions"
     }
     return process.env.NODE_ENV === 'test' ? testPaths : paths
  

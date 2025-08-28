@@ -11,8 +11,15 @@ export const pregnancyReducer = (state, action) => {
                 return { 
                     ...state, 
                     pregnancyLoading: true,
-                };
-          case ACTIONS_TYPES.addUser:
+            };
+            case ACTIONS_TYPES.fetchPregnanciesStart:
+              return { 
+                  ...state, 
+                  pregnanciesLoading: true,
+          };
+
+
+            case ACTIONS_TYPES.addUser:
             return {
               ...state,
               user: action.payload,
@@ -30,7 +37,15 @@ export const pregnancyReducer = (state, action) => {
               ...state,
               pregnancy: action.payload,
               pregnancyLoading: false,
-            };
+          };
+
+          case ACTIONS_TYPES.addPregnancies:
+            return {
+              ...state,
+              pregnancies: action.payload,
+              pregnancyLoading: false,
+          };
+
           default:
             return state;
         }

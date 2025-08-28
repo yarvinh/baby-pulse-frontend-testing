@@ -10,7 +10,7 @@ import ErrorsOrMsg from '../ErrosOrMsg';
 
 const AuthPage = () => {
   const navigate = useNavigate()
-  const {dispatch, userPayload,state,errorsOrMessages} = useContext(PregnancyContext)
+  const {dispatch, userPayload,errorsOrMessages} = useContext(PregnancyContext)
   const { is_login: isLogin, verification_session } = userPayload;
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

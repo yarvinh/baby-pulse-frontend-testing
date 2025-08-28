@@ -4,13 +4,14 @@ import { useSearchParams } from 'react-router-dom';
 import { PregnancyContext } from '../../contexts/PregnancyContext';
 import { resetUserPassword } from '../../actions/userActions';
 import { paths } from '../../helpers/paths';
+import { Eye, EyeOff, Lock } from 'lucide-react';
 
 const ResetPassword= () =>{
-    const {dispatch, userPayload, errorsOrMessages: errorsOrMsg, state} = useContext(PregnancyContext)
-    const { is_login: isLogin,verification_session} = userPayload;
+    const {dispatch, errorsOrMessages: errorsOrMsg} = useContext(PregnancyContext)
     const [searchParams] = useSearchParams();
     const code = searchParams?.get('security_code')
-
+    const [showPassword, setShowPassword] = useState(false);
+    const [ShowConfirmPassword,setShowConfirmPassword] =  useState(false)
     const [user, setUser] = useState({
       security_code: code,
       password: "",
@@ -30,13 +31,30 @@ const ResetPassword= () =>{
 
     return (
         <div>
-              <div className="email-container"> 
-                  <form onSubmit={handleOnSubmit}  className="verify_email">  
+              <div className="auth-container"> 
+                  <form onSubmit={handleOnSubmit}  className="auth-form change-password"> 
                      <div className="inputs-container">
-                        <label>New Password:</label>
-                        <input onChange={handleOnChange} value={user.password}className="verify-email-input" type="password" name="password" />
-                        <label>Confirm Password:</label>
-                        <input onChange={handleOnChange}  value={user.password_confirmation}className="verify-email-input" type="password" name="password_confirmation" />
+                        <div>
+                          <label>New Password:</label>
+                          <div className='password-input-container'>
+                            <Lock className="password-lock" />
+                            <input onChange={handleOnChange} value={user.password}className="password-input" type={showPassword? "text":"password"} name="password" />
+                            <button type="button" onClick={() => setShowPassword(!showPassword)} className="password-eye">
+                              {showPassword ? <EyeOff className="eye" /> : <Eye className="eye" />}
+                            </button>
+                          </div>
+                        </div>
+                        <div>
+                          <label>Confirm Password:</label>
+                          <div className='password-input-container'>
+                            <Lock className="password-lock" />
+                            <input onChange={handleOnChange}  value={user.password_confirmation}className="password-input" type={ShowConfirmPassword ?"text" :"password"} name="password_confirmation" />
+                            <button type="button" onClick={() => setShowConfirmPassword(!ShowConfirmPassword)} className="password-eye">
+                              {ShowConfirmPassword ? <EyeOff className="eye" /> : <Eye className="eye" />}
+                            </button>
+                          </div>
+                        </div>
+
                         <button type='submit' className="verify-email-button">Save</button>
                       </div>
                       <div className="center"> 

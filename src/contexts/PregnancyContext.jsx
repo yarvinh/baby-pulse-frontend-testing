@@ -8,7 +8,9 @@ const initialState = {
   pregnancy: {
     kicks: []
   },
+  pregnancies: [],
   pregnancyLoading: false,
+  pregnanciesLoading: false,
   errorsOrMessages: {},
 }
   
@@ -17,8 +19,10 @@ export const PregnancyProvider = ({ children }) => {
   const userPayload = state.user
   const pregnancy = state.pregnancy
   const errorsOrMessages = state.errorsOrMessages
+  const pregnancies = state.pregnancies
   
   const value = {
+    pregnancies, 
     state,
     userPayload,
     pregnancy,

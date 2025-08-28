@@ -1,4 +1,3 @@
-import { createModuleResolutionCache } from "typescript"
 import { baseUrl } from "../helpers/authHelpers"
 import { paths } from "../helpers/paths"
 import { removeLoginToken, token } from "../helpers/token"

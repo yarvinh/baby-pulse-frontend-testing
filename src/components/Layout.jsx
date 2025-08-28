@@ -5,23 +5,24 @@ import { PregnancyContext } from "../contexts/PregnancyContext"
 import { fetchLogOut } from "../actions/userActions"
 
 const Layout = () => {
-    const {dispatch} = useContext(PregnancyContext)
+    const {dispatch, userPayload,errorsOrMessages} = useContext(PregnancyContext)
+    const { is_login: isLogin, verification_session } = userPayload;
     const handleOnClick = (e) =>{
         fetchLogOut({dispatch: dispatch})
     }
     return (
-        <div >
-            <nav>
-                <ul>
-                    <li>
+        <div>
+            <nav className="nav-bar">
+                <ul className="nav-ul">
+                    {!isLogin && <li>
                         <Link to="sign_up">Sign up</Link>
-                    </li>
-                    <li>
+                    </li>}
+                    {!isLogin && <li>
                         <Link to="login">Log in</Link>
-                    </li>
-                    <li>
+                    </li>}
+                    {isLogin && <li>
                         <button onClick={handleOnClick}>Log out</button>
-                    </li>
+                    </li>}
                 </ul>
             </nav>
            <Outlet/>
