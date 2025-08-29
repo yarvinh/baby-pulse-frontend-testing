@@ -6,6 +6,7 @@ import { PregnancyContext } from '../../contexts/PregnancyContext';
 import { useNavigate } from 'react-router';
 import { paths } from '../../helpers/paths';
 import { useEffect } from 'react';
+import ErrorsOrMsg from '../ErrosOrMsg';
 
 const SignUp = ()=>{
     const navigate = useNavigate()
@@ -85,6 +86,9 @@ const SignUp = ()=>{
                 </div>
       
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    {errorsOrMessages?.from === 'create_user' && (<ErrorsOrMsg errors={errorsOrMessages?.errors} msg={errorsOrMessages.msg}/>)}
+                  </div>
                   {!isLogin && (
                     <>
                       <div className="grid grid-cols-2 gap-3">
