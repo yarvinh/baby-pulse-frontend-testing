@@ -22,10 +22,13 @@ const SignUp = ()=>{
       first_name: '',
       last_name: ''
     });
-
+    console.log(isLogin)
     useEffect(()=>{
-      verification_session && navigate('/verifying_email')
-    },[verification_session])
+      isLogin && navigate('/')
+    },[isLogin])
+    // useEffect(()=>{
+    //   verification_session && navigate('/verifying_email')
+    // },[verification_session])
   
     const [errors, setErrors] = useState({});
     const handleInputChange = (e) => {

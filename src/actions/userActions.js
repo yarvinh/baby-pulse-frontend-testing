@@ -15,7 +15,8 @@ export const userPostFetchAction = async ({user,path,dispatch}) => {
         if (!response.ok) throw new Error(await response.text())
           const data = await response.json()
         dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: data})
-        localStorage.setItem('access_token', data.token)
+        localStorage.setItem('access_token', data.token?.access_token)
+        localStorage.setItem('refresh_token', data.token?.refresh_token)
         dispatch({type: ACTIONS_TYPES.addUser, payload: data})
       } catch (error){
         const errors = JSON.parse(error.message) 
