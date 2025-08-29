@@ -14,12 +14,18 @@ import { paths } from './helpers/paths';
 import { ACTIONS_TYPES } from './actions/actionsHelpers';
 import ForgotPassword from './components/user/ForgotPassword';
 import ResetPassword from './components/user/ResetPassword';
+import { useRef } from 'react';
 
 function App() {
   const {dispatch} = useContext(PregnancyContext)
+  let hasFetchedCheckLogin = false
+  const renderCounter = useRef(0)
+
   useEffect(()=>{
+    if (hasFetchedCheckLogin) return;
     getFetchAction({dispatch: dispatch, type: ACTIONS_TYPES.addUser, path: paths().checkLoginPath})
-  },[])
+  },[dispatch])
+
   return (
     <BrowserRouter>
       <Routes>

@@ -29,6 +29,7 @@ const SetOrEditPregnancy = ({fetchActions, pregnancy: preg ,setShowDueDate,edit}
                 loading: ACTIONS_TYPES.fetchPregnanciesStart
             }
         })
+        setShowDueDate(false)
     }
 
     return (

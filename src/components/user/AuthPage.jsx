@@ -7,6 +7,7 @@ import { PregnancyContext } from '../../contexts/PregnancyContext';
 import { useNavigate } from 'react-router';
 import { useEffect } from 'react';
 import ErrorsOrMsg from '../ErrosOrMsg';
+import { isLoginSessionActive } from '../../helpers/token';
 
 const AuthPage = () => {
   const navigate = useNavigate()
@@ -22,13 +23,13 @@ const AuthPage = () => {
     lastName: '',
     dueDate: ''
   });
+  // This is temporary until I set up the email validation.”
+  // useEffect(()=>{
+  //   verification_session && navigate('/verifying_email')
+  // },[verification_session])
+// This is temporary until I set up the email validation.”
   useEffect(()=>{
-    verification_session && navigate('/verifying_email')
-  },[verification_session])
-
-  useEffect(()=>{
-    isLogin && toggleAuthMode()
-    isLogin && navigate('/')
+    isLogin && isLoginSessionActive() && navigate('/')
   },[isLogin])
 
   const [errors, setErrors] = useState({});
@@ -47,17 +48,6 @@ const AuthPage = () => {
     login({dispatch: dispatch, user: user})
   };
 
-  const toggleAuthMode = () => {
-    setUser({
-      email: '',
-      password: '',
-      confirmPassword: '',
-      firstName: '',
-      lastName: '',
-      dueDate: ''
-    });
-    setErrors({});
-  };
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -91,7 +81,7 @@ const AuthPage = () => {
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <input
-                      type="email"
+                      type="text"
                       name="email"
                       value={user.email}
                       onChange={handleInputChange}

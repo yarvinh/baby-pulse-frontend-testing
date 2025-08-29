@@ -23,9 +23,9 @@ const SignUp = ()=>{
       first_name: '',
       last_name: ''
     });
-    console.log(isLogin)
+
     useEffect(()=>{
-      isLogin && navigate('/')
+      isLogin && isLoginSessionActive() && navigate('/')
     },[isLogin])
     // useEffect(()=>{
     //   verification_session && navigate('/verifying_email')

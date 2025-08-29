@@ -38,3 +38,7 @@ export const setLoginToken = (data) => {
   localStorage.setItem('token', data.token?.token)
   localStorage.setItem('secret_key', data.token?.secret_key)
 }
+
+export const isLoginSessionActive = () => {
+  return !!localStorage.getItem('access_token')
+}

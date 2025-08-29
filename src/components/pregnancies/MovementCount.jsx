@@ -11,7 +11,6 @@ const MovementCount = ({preg}) => {
     const {dispatch} = useContext(PregnancyContext)
 
     const handleMovementCount = (e) => {
-
       patchFetchAction({
         payload: {
           pregnancy_id: preg.id,
@@ -23,8 +22,7 @@ const MovementCount = ({preg}) => {
         actions: {
             actionType: ACTIONS_TYPES.addPregnancies,
             loading: ACTIONS_TYPES.fetchPregnanciesStart
-        }
-        
+        } 
     })
     }
 

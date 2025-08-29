@@ -28,7 +28,7 @@ const HistoryModal = ({setShowHistory, preg}) => {
                     <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                         <span className="font-medium text-gray-800">{date(session.created_at)}</span>
-                        <span className="text-sm text-gray-500">at {formatTime(session.time)}</span>
+                        <span className="text-sm text-gray-500">at {formatTime(session.created_at)}</span>
                     </div>
                     <div className="flex items-center gap-4 text-sm">
                         <div className="flex items-center gap-1">

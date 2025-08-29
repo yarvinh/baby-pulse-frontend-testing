@@ -6,14 +6,14 @@ import { paths } from '../helpers/paths';
 import { ACTIONS_TYPES } from '../actions/actionsHelpers';
 import Pregnancy from "../components/pregnancies/Pregnancy"
 import SetOrEditPregnancy from "../components/pregnancies/SetOrEditPregnancy"
+import { isLoginSessionActive } from '../helpers/token';
 const PregnanciesContainer = ()=> {
 
     const [showDueDate,setShowDueDate] = useState(false)
-    const {dispatch,pregnancies } = useContext(PregnancyContext)
-    // const [showHistory, setShowHistory] = useState(false);
+    const {dispatch,pregnancies , userPayload} = useContext(PregnancyContext)
 
-    useEffect(()=>{
-        getFetchActions({
+    useEffect(()=>{ 
+        isLoginSessionActive() && getFetchActions({
             path: paths().pregnancyPath, 
             dispatch: dispatch, 
             actions: {
@@ -21,7 +21,7 @@ const PregnanciesContainer = ()=> {
                 loading: ACTIONS_TYPES.fetchPregnanciesStart
             }
         })
-    },[])
+    },[dispatch])
 
     
     return (

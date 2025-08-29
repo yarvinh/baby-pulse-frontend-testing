@@ -40,8 +40,8 @@ export const formatDueDate = (dueDate) => {
     month: 'long', 
     day: 'numeric', 
     year: 'numeric' 
-  });
-};
+  })
+}
 
 export const getMovementsAverage = (sessions) => {
   let diffInSeconds = []
@@ -56,21 +56,27 @@ export const getMovementsAverage = (sessions) => {
   const average = (sumOfSeconds / diffInSeconds.length)
   const hours = Math.floor(average / 3600)
   const minutes = Math.floor((average % 3600) / 60)
-  // const seconds = Math.floor(average % 60)
   return `${hours > 0 ? `${hours} ${hours === 1 ? "hour" : "hours"} ` : ""}${minutes} ${minutes === 1 ? "minute" : "minutes"}`.trim()
 }
 
 
-export const formatTime = (d) => {
-  const date = new Date(d);
+export const formatTime = (dateString) => {
+  
+  const d = new Date(dateString), now = new Date()
 
-  const options = {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true,
-      timeZone: 'UTC' 
-  };
-  return date.toLocaleTimeString('en-US', options)
+  const sameDay = (a, b) =>
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+
+  const time = d.toLocaleTimeString(undefined, { timeStyle: "short" })
+  const date = d.toLocaleDateString(undefined, { dateStyle: "medium" })
+
+  if (sameDay(d, now)) return `today ${time}`;
+  const yesterday = new Date(now); yesterday.setDate(now.getDate() - 1)
+  if (sameDay(d, yesterday)) return `yesterday ${time}`
+  return `${date} ${time}`
+  
 };
 
 
@@ -88,8 +94,6 @@ export const  calculateTime = (createAtTime) =>{
   return `${hours > 0 ? `${hours} hours and`: " "} ${minutes} minutes`
 
 }
-
-
 
 function getTimeDifference(time1, time2) {
   const date1 = new Date(time1)
