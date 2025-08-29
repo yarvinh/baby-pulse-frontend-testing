@@ -65,7 +65,7 @@ const HistoryModal = ({setShowHistory, preg}) => {
                     </div>
                     {/* <ChevronRight className="w-4 h-4 text-gray-400" /> */}
                     <button 
-                        onClick={(e)=>handleOndeleteSession(e,session.id)}
+                        onClick={(e)=>handleOndeleteSession(session.id)}
                         className="p-1 hover:bg-red-100 rounded-full transition-colors"
                         >
                         <X  className="w-5 h-5 text-red-500" />
