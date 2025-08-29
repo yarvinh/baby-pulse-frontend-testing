@@ -4,8 +4,9 @@ import { paths } from "../../helpers/paths";
 import { PregnancyContext } from "../../contexts/PregnancyContext";
 import { patchFetchAction, postFetchAction } from "../../actions/fetchings";
 import { calculateTime, getCurrentTime } from "../../helpers/date";
+import { useEffect } from "react";
 
-const CreateKickSession = ({preg})=>{
+const CreateKickSession = ({preg,setIsRunning, isRunning})=>{
     const kick_session = preg.kick_sessions?.at(-1);
     const isTracking = kick_session?.session_complete
     const {dispatch} = useContext(PregnancyContext)
@@ -38,6 +39,10 @@ const CreateKickSession = ({preg})=>{
                 } 
             })
     }
+
+    useEffect(() => {
+        isTracking && setIsRunning(true);
+    },[isTracking])
 
    return (
     <button

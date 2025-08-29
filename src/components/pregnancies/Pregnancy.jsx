@@ -83,8 +83,8 @@ const Pregnancy = ({pregnancy}) => {
           </div>
         </div>
         <TrackingHistoryContainer preg={pregnancy} setShowHistory={setShowHistory}/>
-        {showDueDate && <SetOrEditPregnancy pregnancy={pregnancy} setShowDueDate={setShowDueDate} edit={true} fetchActions={patchFetchAction}/>}
-        {showHistory && <HistoryModal preg={pregnancy} setShowHistory={setShowHistory}/> }
+        {showDueDate &&  <SetOrEditPregnancy pregnancy={pregnancy} setShowDueDate={setShowDueDate} edit={true} fetchActions={patchFetchAction}/>}
+        {showHistory && <HistoryModal  preg={pregnancy} setShowHistory={setShowHistory}/> }
         
       </div>
 

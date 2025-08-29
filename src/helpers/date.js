@@ -109,3 +109,19 @@ function getTimeDifference(time1, time2) {
   const diffSeconds = Math.abs(totalSeconds1 - totalSeconds2)
   return diffSeconds
 }
+
+export const formatElapsed = (ms) => {
+  const total = Math.max(0, Math.floor(ms / 1000));
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const s = total % 60;
+  const pad = (n) => String(n).padStart(2, "0");
+  return h > 0 ? `${pad(h)}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`;
+}
+
+export const timeToLocal = (created_at) => {
+  if(created_at){
+    const time = new Date(created_at).toISOString()
+    return new Date(time)
+  }
+}

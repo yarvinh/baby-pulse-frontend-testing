@@ -4,6 +4,7 @@ import CreateKickSession from "../components/pregnancies/CreateKickSession";
 import { postFetchAction } from "../actions/fetchings";
 import MovementCount from "../components/pregnancies/MovementCount";
 import { calculateTime, formatTime } from "../helpers/date";
+import CountUpTimer from "../components/CountUpTimer";
 
 const TrackingHistoryContainer = ({preg,setShowHistory}) => {
 
@@ -13,6 +14,8 @@ const TrackingHistoryContainer = ({preg,setShowHistory}) => {
   // const [movements, setMovements] = useState(3)
   // const [startTime, setStartTime] = useState(null)
   // const [elapsedTime, setElapsedTime] = useState(0)
+  const [isRunning, setIsRunning] = useState(false);
+
   const [completionTime, setCompletionTime] = useState("45 minutes")
 
     return(
@@ -29,13 +32,13 @@ const TrackingHistoryContainer = ({preg,setShowHistory}) => {
               </div>
               
               <div className="flex items-center gap-2">
-                <button
+                {preg?.kick_sessions?.length > 0 && <button
                   onClick={() => setShowHistory(true)}
                   className="p-2 bg-purple-100 text-purple-700 hover:bg-purple-200 rounded-lg transition-colors"
                 >
                   <History className="w-4 h-4" />
-                </button>
-                <CreateKickSession preg={preg} fetchActions={postFetchAction}/>
+                </button>}
+                <CreateKickSession preg={preg} fetchActions={postFetchAction} isTracking={isTracking} setIsRunning={setIsRunning}/>
               </div>
             </div>
 
@@ -72,13 +75,14 @@ const TrackingHistoryContainer = ({preg,setShowHistory}) => {
 
               {/* Timer Display and Results - Full Width Layout */}
               <div className="space-y-4">
-                {isTracking && (
+                {isTracking && isTracking &&(
                   <div className="bg-amber-50 rounded-xl p-4 text-center">
                     <div className="flex items-center gap-2 justify-center mb-2">
                       <Timer className="w-4 h-4 text-amber-600" />
                       <span className="text-sm text-gray-600">Current Session</span>
                     </div>
-                    <p className="text-2xl font-bold text-amber-600">{formatTime(kick_session.time)}</p>
+                    {isTracking && <CountUpTimer kickSession={kick_session} setIsRunning={setIsRunning}  isRunning={isRunning} isTracking={isTracking}/>}
+                    <p className="text-2xl font-bold text-amber-600">{formatTime(kick_session.created_at)}</p>
                   </div>
                 )}
 

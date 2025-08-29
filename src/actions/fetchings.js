@@ -90,11 +90,34 @@ export const getFetchAction = async ({path, dispatch, query_string}) => {
       }catch (error){
         
         const err = JSON.parse(error.message) 
-        console.log(err)
         if (err){
           dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: err})
         } else {
           dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: ERRORS})
         }
       }
+  }
+
+
+  export const deleteFetchAction = async ({path, dispatch,actions}) => { 
+    const {actionType,loading} = actions
+    dispatch({type: loading})
+      try {
+        const response = await fetch(`${baseUrl()}${path}`,{
+          method: "DELETE",
+          headers: token(), 
+          withCredentials: true
+        })
+        const data = await response.json()
+        if(!response.ok) throw new Error(await response.text())
+        dispatch({type: actionType, payload: data})
+      } catch(error) {
+        const err = JSON.parse(error.message) 
+        if (err){
+          dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: err})
+        } else {
+          dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: ERRORS})
+        }
+      }
+    
   }

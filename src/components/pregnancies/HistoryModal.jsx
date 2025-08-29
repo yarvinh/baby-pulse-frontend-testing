@@ -1,7 +1,28 @@
 import { ChevronRight, History, Target, Timer, X } from "lucide-react";
 import { date, formatTime, getMovementsAverage } from "../../helpers/date";
+import { paths } from "../../helpers/paths";
+import { ACTIONS_TYPES } from "../../actions/actionsHelpers";
+import { useContext } from "react";
+import { PregnancyContext } from "../../contexts/PregnancyContext";
+import { deleteFetchAction } from "../../actions/fetchings";
 
 const HistoryModal = ({setShowHistory, preg}) => {
+    const {dispatch} = useContext(PregnancyContext)
+    const handleOndeleteSession = (id) => {
+        const confirmBox = window.confirm(
+            "Are you sure you want to delete this session?"     
+        )
+        if(confirmBox === true) dispatch(deleteFetchAction({
+            dispatch: dispatch, 
+            path: `${paths().kickSessions}/${id}`,
+            actions: {
+                actionType: ACTIONS_TYPES.addPregnancies,
+                loading: ACTIONS_TYPES.fetchPregnanciesStart
+            } 
+        }))  
+    }
+
+
     const historicalData  = preg.kick_sessions
     return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -39,19 +60,27 @@ const HistoryModal = ({setShowHistory, preg}) => {
                         <Timer className="w-3 h-3 text-blue-600" />
                         <span className="text-blue-600">in {session.duration}</span>
                         </div>
+                        
                     </div>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-gray-400" />
+                    {/* <ChevronRight className="w-4 h-4 text-gray-400" /> */}
+                    <button 
+                        onClick={(e)=>handleOndeleteSession(e,session.id)}
+                        className="p-1 hover:bg-red-100 rounded-full transition-colors"
+                        >
+                        <X  className="w-5 h-5 text-red-500" />
+                    </button>
                 </div>
+                
                 </div>
             ))}
             </div>
             
-            <div className="p-4 bg-gray-50 text-center">
+            {historicalData?.length > 5 && <div className="p-4 bg-gray-50 text-center">
             <p className="text-sm text-gray-600">
                 Average time to 10 movements: <span className="font-medium text-gray-800">{getMovementsAverage(historicalData)}</span>
             </p>
-            </div>
+            </div>}
         </div>
         </div>
     )
