@@ -41,7 +41,7 @@ const CreateKickSession = ({preg,setIsRunning, isRunning})=>{
     }
 
     useEffect(() => {
-        isTracking && setIsRunning(true);
+        isTracking && setIsRunning(false);
     },[isTracking])
 
    return (

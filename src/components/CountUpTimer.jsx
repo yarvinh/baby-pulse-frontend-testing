@@ -9,6 +9,7 @@ const CountUpTimer = ({isTracking,kickSession, setIsRunning, isRunning}) => {
   const intervalRef = useRef(null);
 
   const start = () => {
+    console.log(isRunning)
     if (!isTracking) return;
     setElapsedMs(0);
     setAnchorTs(new Date(timeToLocal(createdAt)));
