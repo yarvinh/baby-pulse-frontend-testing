@@ -5,9 +5,15 @@ import { PregnancyContext } from "../../contexts/PregnancyContext";
 import { patchFetchAction, postFetchAction } from "../../actions/fetchings";
 import { calculateTime, getCurrentTime } from "../../helpers/date";
 import { useEffect } from "react";
+import { findAncestor } from "typescript";
+import { findLastCreatedItem } from "../../helpers/arrayHelpers";
 
 const CreateKickSession = ({preg,setIsRunning, isRunning})=>{
-    const kick_session = preg.kick_sessions?.at(-1);
+    const kick_session = findLastCreatedItem(preg.kick_sessions);
+    // const kick_session = preg.kick_sessions?.find((session)=>{
+    //   return session.session_complete && session
+    // })
+    console.log(kick_session)
     const isTracking = kick_session?.session_complete
     const {dispatch} = useContext(PregnancyContext)
 

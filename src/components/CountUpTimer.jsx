@@ -17,7 +17,8 @@ const CountUpTimer = ({isTracking,kickSession, setIsRunning, isRunning}) => {
   };
 
   useEffect(() => {
-    start()
+    if (!isRunning) start()
+
     if (!isRunning) return;
     const tick = () => {
       const now = Date.now();

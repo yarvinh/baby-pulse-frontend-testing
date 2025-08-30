@@ -5,10 +5,12 @@ import { postFetchAction } from "../actions/fetchings";
 import MovementCount from "../components/pregnancies/MovementCount";
 import { calculateTime, formatTime } from "../helpers/date";
 import CountUpTimer from "../components/CountUpTimer";
+import { findLastCreatedItem } from "../helpers/arrayHelpers";
 
 const TrackingHistoryContainer = ({preg,setShowHistory}) => {
-
-  const kick_session = preg.kick_sessions?.at(-1)
+  const kick_session = findLastCreatedItem(preg.kick_sessions)
+  console.log(kick_session)
+  // const kick_session = preg.kick_sessions?.at(-1)
   const isTracking = kick_session?.session_complete
 
   // const [movements, setMovements] = useState(3)
