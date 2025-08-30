@@ -1,21 +1,24 @@
 export const date = (date) => {
     if (date){
-        date = new Date(date.split('-').join("-").split("T")[0].replace(/-/g, '\/'))
+      date = new Date(date).toLocaleDateString(undefined, { dateStyle: "medium" })
+      date = new Date(date.split('-').join("-").split("T")[0].replace(/-/g, '\/'))
       return date.toDateString()
     }
 }
 
 export const calculateWeeksRemaining = (dueDate) => {
+
   const today = new Date()
-  const due = new Date(dueDate?.split("T")[0])
+  const due = new Date(dueDate)
   const diffTime = due.getTime() - today.getTime()
   const diffWeeks = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 7))
   return Math.max(0, diffWeeks)
+  
 };
 
 export const calculateDaysRemaining = (dueDate) => {
   const today = new Date();
-  const due = new Date(dueDate?.split("T")[0])
+  const due = new Date(dueDate)
   const diffTime = due.getTime() - today.getTime()
   const remainingDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
 

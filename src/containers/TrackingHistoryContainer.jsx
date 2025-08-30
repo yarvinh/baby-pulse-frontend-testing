@@ -70,9 +70,9 @@ const TrackingHistoryContainer = ({preg,setShowHistory}) => {
                   ></div>
                 </div>
                 
-                <p className="text-sm text-gray-600">
+                {preg?.kick_sessions.length > 0 && <p className="text-sm text-gray-600">
                   {kick_session?.movements === 10 ? 'Target reached!' : `${10 - kick_session?.movements} more to go`}
-                </p>
+                </p>}
               </div>
 
               {/* Timer Display and Results - Full Width Layout */}
