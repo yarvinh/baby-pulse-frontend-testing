@@ -1,4 +1,4 @@
-import { Activity, Clock, History, Plus, Target, Timer } from "lucide-react"
+import { Activity, Clock, History, Target, Timer } from "lucide-react"
 import { useState } from "react";
 import CreateKickSession from "../components/pregnancies/CreateKickSession";
 import { postFetchAction } from "../actions/fetchings";
@@ -9,16 +9,8 @@ import { findLastCreatedItem } from "../helpers/arrayHelpers";
 
 const TrackingHistoryContainer = ({preg,setShowHistory}) => {
   const kick_session = findLastCreatedItem(preg.kick_sessions)
-  console.log(kick_session)
-  // const kick_session = preg.kick_sessions?.at(-1)
   const isTracking = kick_session?.session_complete
-
-  // const [movements, setMovements] = useState(3)
-  // const [startTime, setStartTime] = useState(null)
-  // const [elapsedTime, setElapsedTime] = useState(0)
-  const [isRunning, setIsRunning] = useState(false);
-
-  const [completionTime, setCompletionTime] = useState("45 minutes")
+  const [isRunning, setIsRunning] = useState(false)
 
     return(
         <div className="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl border border-white/20">
@@ -45,7 +37,6 @@ const TrackingHistoryContainer = ({preg,setShowHistory}) => {
             </div>
 
             <div className="space-y-4">
-              {/* Movement Counter */}
               <div className="bg-gradient-to-r from-blue-50 to-teal-50 rounded-xl p-6 text-center">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
@@ -57,12 +48,11 @@ const TrackingHistoryContainer = ({preg,setShowHistory}) => {
                 
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <p className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent">
-                    {/* {movements} */}
+                    {kick_session?.movements > 0 ? kick_session?.movements : 0}/10
                   </p>
-                  <span className="text-2xl text-gray-400 font-light">{kick_session?.movements}/10</span>
+                  {/* <span className="text-2xl text-gray-400 font-light">{kick_session?.movements}/10</span> */}
                 </div>
                 
-                {/* Progress Bar */}
                 <div className="w-full bg-gray-200 rounded-full h-2 mb-3">
                   <div 
                     className="bg-gradient-to-r from-blue-500 to-teal-500 h-2 rounded-full transition-all duration-300"
@@ -75,7 +65,6 @@ const TrackingHistoryContainer = ({preg,setShowHistory}) => {
                 </p>}
               </div>
 
-              {/* Timer Display and Results - Full Width Layout */}
               <div className="space-y-4">
                 {isTracking && isTracking &&(
                   <div className="bg-amber-50 rounded-xl p-4 text-center">
@@ -88,7 +77,6 @@ const TrackingHistoryContainer = ({preg,setShowHistory}) => {
                   </div>
                 )}
 
-                {completionTime && (
                   <div className="bg-green-50 rounded-xl p-4 text-center">
                     <div className="flex items-center gap-2 justify-center mb-2">
                       <Target className="w-4 h-4 text-green-600" />
@@ -97,8 +85,7 @@ const TrackingHistoryContainer = ({preg,setShowHistory}) => {
                     <p className="text-lg font-bold text-green-600">in {kick_session && calculateTime(kick_session.created_at)}</p>
                     <p className="text-xs text-green-500 mt-1">Last measured </p>
                   </div>
-                )}
-
+               
                 {!kick_session?.session_complete && (
                   <div className="bg-gray-50 rounded-xl p-6 text-center">
                     <div className="flex items-center gap-2 justify-center mb-3">
