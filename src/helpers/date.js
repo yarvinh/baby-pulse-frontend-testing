@@ -92,10 +92,10 @@ export const formatTime = (dateString) => {
   const time = d.toLocaleTimeString(undefined, { timeStyle: "short" })
   const date = d.toLocaleDateString(undefined, { dateStyle: "medium" })
 
-  if (sameDay(d, now)) return `today ${time}`;
+  if (sameDay(d, now)) return `today at ${time}`;
   const yesterday = new Date(now); yesterday.setDate(now.getDate() - 1)
-  if (sameDay(d, yesterday)) return `yesterday ${time}`
-  return time
+  if (sameDay(d, yesterday)) return `yesterday at ${time}`
+  return `at ${time}` 
   
 };
 

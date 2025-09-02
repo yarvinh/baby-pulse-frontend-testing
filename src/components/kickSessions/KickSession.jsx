@@ -27,7 +27,7 @@ const KickSession = ({session}) => {
             <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
                     <span className="font-medium text-gray-800">{date(session.created_at)}</span>
-                    <span className="text-sm text-gray-500"> at {formatTime(session.created_at)}</span>
+                    <span className="text-sm text-gray-500"> {formatTime(session.created_at)}</span>
                 </div>
                 <div className="flex items-center gap-4 text-sm">
                     <div className="flex items-center gap-1">
@@ -40,7 +40,7 @@ const KickSession = ({session}) => {
                     </div> 
                 </div>
             </div>
-            <ChevronRight className="w-4 h-4 text-gray-400" />
+            {/* <ChevronRight className="w-4 h-4 text-gray-400" /> */}
             <button 
             onClick={(e)=>handleOndeleteSession(session.id)}
             className="p-1 hover:bg-red-100 rounded-full transition-colors"

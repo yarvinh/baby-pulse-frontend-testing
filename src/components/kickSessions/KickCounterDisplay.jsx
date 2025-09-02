@@ -1,7 +1,7 @@
 import { Clock, Target, Timer } from "lucide-react"
 import CountUpTimer from "../CountUpTimer"
 import MovementCount from "./MovementCount"
-import { calculateTime,  formatTime} from "../../helpers/date"
+import { calculateTime,  changeTimeFormat,  formatTime} from "../../helpers/date"
 
 const KickCounterDisplay = ({kick_sessions}) => {
   const kick_session = kick_sessions?.at(0) || {}
@@ -54,7 +54,7 @@ const KickCounterDisplay = ({kick_sessions}) => {
                       <Target className="w-4 h-4 text-green-600" />
                       <span className="text-sm text-gray-600">{movements} Movements Reached</span>
                     </div>
-                    <p className="text-lg font-bold text-green-600">in {kick_session?.duration ? kick_session.duration : calculateTime(created_at,updated_at)}</p>
+                    <p className="text-lg font-bold text-green-600">in {kick_session?.duration ? changeTimeFormat(kick_session.duration)  : calculateTime(created_at,updated_at)}</p>
                     <p className="text-xs text-green-500 mt-1">Last measured </p>
                   </div>}
                
