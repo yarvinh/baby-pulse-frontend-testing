@@ -8,6 +8,7 @@ import KickSessionsContainer from "../../containers/KickSessionsContainer";
 import WeeksAndDaysCount from "./WeeksAndDaysCount";
 
 const Pregnancy = ({pregnancy}) => {
+  console.log(new Date ())
   const [showDueDate,setShowDueDate] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
   const weeks = [34,37,40]
