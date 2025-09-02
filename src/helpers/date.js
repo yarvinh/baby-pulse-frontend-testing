@@ -1,5 +1,7 @@
-export const date = (date) => {
-    date = new Date(date).toLocaleString()
+export const date = (date, utc = false) => {
+    if(!utc)
+      date = new Date(date).toLocaleString()
+
     if (date){
       date = new Date(date.split('-').join("-").split("T")[0].replace(/-/g, '\/'))
       return date.toDateString()

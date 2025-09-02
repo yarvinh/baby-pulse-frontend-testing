@@ -22,7 +22,7 @@ const Pregnancy = ({pregnancy}) => {
               </div>
               <div>
                 <h2 className="text-base sm:text-lg font-bold text-gray-800">Due Date</h2>
-                <p className="text-sm text-gray-600">{date(pregnancy.due_date)}</p>
+                <p className="text-sm text-gray-600">{date(pregnancy.due_date, true)}</p>
               </div>
             </div>
             <button
