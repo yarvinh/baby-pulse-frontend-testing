@@ -1,4 +1,5 @@
 export const date = (date) => {
+    date = new Date(date).toLocaleString()
     if (date){
       date = new Date(date.split('-').join("-").split("T")[0].replace(/-/g, '\/'))
       return date.toDateString()
@@ -44,7 +45,6 @@ export const formatDueDate = (dueDate) => {
 }
 
 export const getMovementsAverage = (sessions) => {
-  // console.log(sessions)
   const toSeconds = sessions.map((s)=>{
     const [hours, minutes, seconds] = s.duration?.split(":").map(Number)
     return (hours * 60) * 60 + (minutes * 60) + seconds
@@ -82,19 +82,19 @@ export const getMovementsAverage = (sessions) => {
 }
 
 export const formatTime = (dateString) => {
-  const d = new Date(dateString), now = new Date()
+  let d = new Date(dateString)
+  const now = new Date()
   const sameDay = (a, b) =>
     a.getFullYear() === b.getFullYear() &&
     a.getMonth() === b.getMonth() &&
     a.getDate() === b.getDate()
 
   const time = d.toLocaleTimeString(undefined, { timeStyle: "short" })
-  const date = d.toLocaleDateString(undefined, { dateStyle: "medium" })
+  // const date = d.toLocaleDateString(undefined, { dateStyle: "medium" })
 
   if (sameDay(d, now)) return `today ${time}`;
   const yesterday = new Date(now); yesterday.setDate(now.getDate() - 1)
   if (sameDay(d, yesterday)) return `yesterday ${time}`
-  return `${date} ${time}`
   
 };
 
@@ -145,4 +145,12 @@ export const timeToLocal = (created_at) => {
     const time = new Date(created_at).toISOString()
     return new Date(time)
   }
+}
+
+export const changeTimeFormat = (time) =>{
+   if (time === "0:0:0") return "In progress"
+   const [hours, minutes, seconds] = time.split(":")
+   return `${hours != "0" ? `${hours} h`: ""} ${minutes != "0" ? `${minutes} min` : ""} ${seconds != "0" ?`${seconds} s` : ""} `
+  //  return `${hours} h ${minutes} min ${seconds} s`
+   
 }

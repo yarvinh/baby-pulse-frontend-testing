@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { date, formatTime } from "../../helpers/date"
+import { changeTimeFormat, date, formatTime } from "../../helpers/date"
 import { PregnancyContext } from "../../contexts/PregnancyContext"
 import { deleteFetchAction } from "../../actions/fetchings"
 import { ACTIONS_TYPES } from "../../actions/actionsHelpers"
@@ -27,7 +27,7 @@ const KickSession = ({session}) => {
             <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
                     <span className="font-medium text-gray-800">{date(session.created_at)}</span>
-                    <span className="text-sm text-gray-500">at {formatTime(session.created_at)}</span>
+                    <span className="text-sm text-gray-500"> at {formatTime(session.created_at)}</span>
                 </div>
                 <div className="flex items-center gap-4 text-sm">
                     <div className="flex items-center gap-1">
@@ -36,7 +36,7 @@ const KickSession = ({session}) => {
                     </div>
                     <div className="flex items-center gap-1">
                     <Timer className="w-3 h-3 text-blue-600" />
-                    <span className="text-blue-600">in {session.duration}</span>
+                    <span className="text-blue-600">in {changeTimeFormat(session.duration)}</span>
                     </div> 
                 </div>
             </div>
