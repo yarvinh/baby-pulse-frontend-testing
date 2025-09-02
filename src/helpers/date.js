@@ -90,11 +90,12 @@ export const formatTime = (dateString) => {
     a.getDate() === b.getDate()
 
   const time = d.toLocaleTimeString(undefined, { timeStyle: "short" })
-  // const date = d.toLocaleDateString(undefined, { dateStyle: "medium" })
+  const date = d.toLocaleDateString(undefined, { dateStyle: "medium" })
 
   if (sameDay(d, now)) return `today ${time}`;
   const yesterday = new Date(now); yesterday.setDate(now.getDate() - 1)
   if (sameDay(d, yesterday)) return `yesterday ${time}`
+  return time
   
 };
 
