@@ -1,26 +1,25 @@
 export const date = (date) => {
     if (date){
-      date = new Date(date).toLocaleDateString(undefined, { dateStyle: "medium" })
       date = new Date(date.split('-').join("-").split("T")[0].replace(/-/g, '\/'))
       return date.toDateString()
     }
 }
 
-export const calculateWeeksRemaining = (dueDate) => {
-
+export const calculateWeeksRemaining = (dueDate,diff) => {
   const today = new Date()
   const due = new Date(dueDate)
   const diffTime = due.getTime() - today.getTime()
-  const diffWeeks = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 7))
+  const diffWeeks = Math.ceil(diffTime / ((1000 * 60 * 60 * 24 * 7)  )) - diff
+
   return Math.max(0, diffWeeks)
   
 };
 
-export const calculateDaysRemaining = (dueDate) => {
+export const calculateDaysRemaining = (dueDate, diff) => {
   const today = new Date();
   const due = new Date(dueDate)
   const diffTime = due.getTime() - today.getTime()
-  const remainingDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+  const remainingDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - diff
 
   return Math.max(0, remainingDays)
 };
@@ -35,8 +34,6 @@ export const calculateWeeks = (dueDate) => {
   return Math.max(0, Math.min(40, totalWeeks))
 };
 
-
-
 export const formatDueDate = (dueDate) => {
   const due = new Date(dueDate);
   return due.toLocaleDateString('en-US', { 
@@ -47,26 +44,45 @@ export const formatDueDate = (dueDate) => {
 }
 
 export const getMovementsAverage = (sessions) => {
-  let diffInSeconds = []
-  for (let i = 0; i <= sessions.length - 1; i++) {
-    if (sessions[i].time){
-      const diff = getTimeDifference(sessions[i].time, sessions[i].created_at)
-      diffInSeconds.push(diff)
-    }
-  }
+  // console.log(sessions)
+  const toSeconds = sessions.map((s)=>{
+    const [hours, minutes, seconds] = s.duration?.split(":").map(Number)
+    return (hours * 60) * 60 + (minutes * 60) + seconds
+  })
+  const {sumOfKicks} = sessions.reduce((acc, actualValue) =>{
+    acc.sumOfKicks += actualValue.movements
+    acc.count + 1
+    return acc
+  },{sumOfKicks: 0, count: 0})
+  const sumOfSeconds = toSeconds.reduce((acumulator, actualValue) => acumulator + actualValue, 0)
+  const kickPerSeconds = sumOfKicks / sumOfSeconds
+  return Math.floor((10 / kickPerSeconds) / 60)
 
-  const sumOfSeconds = diffInSeconds.reduce((acumulator, actualValue) => acumulator + actualValue, 0)
-  const average = (sumOfSeconds / diffInSeconds.length)
-  const hours = Math.floor(average / 3600)
-  const minutes = Math.floor((average % 3600) / 60)
-  return `${hours > 0 ? `${hours} ${hours === 1 ? "hour" : "hours"} ` : ""}${minutes} ${minutes === 1 ? "minute" : "minutes"}`.trim()
+  // let diffInSeconds = []
+  // for (let i = 0; i <= sessions.length - 1; i++ ) {
+  //   if (sessions[i].time){
+  //     const diff = getTimeDifference(sessions[i].updated_at, sessions[i].created_at)
+  //     diffInSeconds.push(diff)
+  //   }
+  // }
+
+
+
+
+
+
+
+  // const averageInSeconds = sumOfSeconds / toSeconds.length
+  // console.log(averageInSeconds)
+  // const sumOfSeconds = diffInSeconds.reduce((acumulator, actualValue) => acumulator + actualValue, 0)
+  // const average = (sumOfSeconds / diffInSeconds.length)
+  // const hours = Math.floor(average / 3600)
+  // const minutes = Math.floor((average % 3600) / 60)
+  // return `${hours > 0 ?`${hours} ${hours === 1 ?"hour":"hours"}`:""}${minutes} ${minutes === 1 ? "minute" : "minutes"}`.trim()
 }
 
-
 export const formatTime = (dateString) => {
-  
   const d = new Date(dateString), now = new Date()
-
   const sameDay = (a, b) =>
     a.getFullYear() === b.getFullYear() &&
     a.getMonth() === b.getMonth() &&
@@ -82,19 +98,21 @@ export const formatTime = (dateString) => {
   
 };
 
-
 export const getCurrentTime = () => {
   const now = new Date();
   return now
 }
 
-export const  calculateTime = (createAtTime) =>{
-  const rightNowTime = new Date();
+export const  calculateTime = (createAtTime, endTime) =>{
+
+  const rightNowTime = new Date(endTime);
   const internationalTime = rightNowTime.toISOString();
   const movementSessionTime = new Date(internationalTime)  - new Date(createAtTime)
   const hours = Math.floor(movementSessionTime / (1000 * 60 * 60));
   const minutes = Math.floor((movementSessionTime % (1000 * 60 * 60)) / (1000 * 60));
-  return `${hours > 0 ? `${hours} hours and`: " "} ${minutes} minutes`
+  const seconds = Math.floor((movementSessionTime % (1000 * 60)) / 1000);
+  // return `${hours > 0 ?`${hours} hours and `:""}${minutes} minutes`
+  return `${hours}:${minutes}:${seconds}`
 
 }
 

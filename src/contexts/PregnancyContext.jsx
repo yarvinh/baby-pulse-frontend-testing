@@ -1,9 +1,9 @@
-import { createContext, useReducer} from 'react';
+import { createContext, useReducer, useState} from 'react';
 import { pregnancyReducer } from '../reducers/pregnancyReducers';
 export const PregnancyContext = createContext();
 
 const initialState = {
-  user: {is_login: false},
+  user: {is_login: false, user: {}},
   userLoading: false,
   pregnancy: {
     kicks: []
@@ -15,7 +15,8 @@ const initialState = {
 }
   
 export const PregnancyProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(pregnancyReducer,initialState);
+  const [state, dispatch] = useReducer(pregnancyReducer,initialState)
+  const [isRunning, setIsRunning] = useState(false)
   const userPayload = state.user
   const pregnancy = state.pregnancy
   const errorsOrMessages = state.errorsOrMessages
@@ -27,7 +28,9 @@ export const PregnancyProvider = ({ children }) => {
     userPayload,
     pregnancy,
     errorsOrMessages,
-    dispatch
+    dispatch,
+    isRunning, 
+    setIsRunning
   };
 
   return (

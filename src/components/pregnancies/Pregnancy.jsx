@@ -3,15 +3,17 @@ import { calculateDaysRemaining, calculateWeeks, calculateWeeksRemaining, date, 
 import { Baby, Calendar, Edit3, X} from 'lucide-react';
 import SetOrEditPregnancy from "./SetOrEditPregnancy";
 import { patchFetchAction } from "../../actions/fetchings";
-import HistoryModal from "./HistoryModal";
-import TrackingHistoryContainer from "../../containers/TrackingHistoryContainer";
+// import HistoryModal from "./HistoryModal";
+import KickSessionsContainer from "../../containers/KickSessionsContainer";
+import WeeksAndDaysCount from "./WeeksAndDaysCount";
 
 const Pregnancy = ({pregnancy}) => {
   const [showDueDate,setShowDueDate] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
+  const weeks = [40,37,34]
   return (
-      <div className="space-y-4 sm:space-y-6">
-        <div className="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl border border-white/20">
+      <div className="space-y-0 sm:space-y-0">
+        <div className="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl  p-4 sm:p-6 shadow-xl border border-white/20 mb-4 sm:mb-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="p-2 sm:p-3 bg-rose-100 rounded-full">
@@ -29,17 +31,7 @@ const Pregnancy = ({pregnancy}) => {
               <Edit3 className="w-4 h-4" />
             </button>
           </div>
-          
-          <div className="mt-4 grid grid-cols-2 gap-4">
-            <div className="bg-rose-50 rounded-xl p-3 text-center">
-              <p className="text-lg sm:text-xl font-bold text-rose-600">{calculateWeeksRemaining(pregnancy.due_date)}</p>
-              <p className="text-xs sm:text-sm text-gray-600">Weeks Left</p>
-            </div>
-            <div className="bg-pink-50 rounded-xl p-3 text-center">
-              <p className="text-lg sm:text-xl font-bold text-pink-600">{calculateDaysRemaining(pregnancy.due_date)}</p>
-              <p className="text-xs sm:text-sm text-gray-600">Days Left</p>
-            </div>
-          </div>
+          {weeks.map((w,i)=> <WeeksAndDaysCount key={i} weeks={w} preg={pregnancy}/>)}
         </div>
 
         {/* Development Card - Full Width on Mobile */}
@@ -77,20 +69,19 @@ const Pregnancy = ({pregnancy}) => {
               <p className="text-xs sm:text-sm text-gray-600">Weight</p>
             </div>
             <div className="bg-purple-50 rounded-lg sm:rounded-xl p-3 sm:p-4 text-center">
-              <p className="text-lg sm:text-2xl font-bold text-purple-600">{calculateWeeksRemaining(pregnancy.due_date)} wks</p>
+              <p className="text-lg sm:text-2xl font-bold text-purple-600">{calculateWeeksRemaining(pregnancy.due_date, 0)} wks</p>
               <p className="text-xs sm:text-sm text-gray-600">Remaining</p>
             </div>
           </div>
         </div>
-        <TrackingHistoryContainer preg={pregnancy} setShowHistory={setShowHistory}/>
+        <KickSessionsContainer preg={pregnancy} setShowHistory={setShowHistory} showHistory={showHistory}/>
         {showDueDate &&  <SetOrEditPregnancy pregnancy={pregnancy} setShowDueDate={setShowDueDate} edit={true} fetchActions={patchFetchAction}/>}
-        {showHistory && <HistoryModal  preg={pregnancy} setShowHistory={setShowHistory}/> }
+        {/* {showHistory && <HistoryModal  preg={pregnancy} setShowHistory={setShowHistory}/> } */}
         
       </div>
 
-)
+  )
 
-   
 }
 
 

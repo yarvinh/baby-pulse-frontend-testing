@@ -68,7 +68,7 @@ const SetOrEditPregnancy = ({fetchActions, pregnancy: preg ,setShowDueDate,edit}
               <span className="font-medium">Due Date:</span> {date(preg.due_date)}
             </p>
             <p className="text-sm text-gray-700 mt-1">
-              <span className="font-medium">Weeks Remaining:</span> {calculateWeeksRemaining(preg.due_date)} weeks
+              <span className="font-medium">Weeks Remaining:</span> {calculateWeeksRemaining(preg.due_date,0)} weeks
             </p>
           </div>}
           
@@ -89,37 +89,7 @@ const SetOrEditPregnancy = ({fetchActions, pregnancy: preg ,setShowDueDate,edit}
         </div>
       </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-        // <>
-        //     <div className="p-2 bg-rose-100 rounded-full">
-        //       <Calendar className="w-5 h-5 text-rose-600" />
-        //     </div>
-        //     <h3 className="text-left">Due date</h3>
-        //     <p className="text-left">{date(pregnancy.due_date)}</p>
-        //     <p>{calculateWeeksRemaining(pregnancy.due_date)}</p>
-            
-
-
-        //     {/* <div className="bg-rose-50 rounded-xl p-4 mb-6"> */}
-        //     <p className="text-sm text-gray-700">
-        //       <span className="font-medium">Due Date:</span> {formatDueDate(pregnancy.due_date)}
-        //     </p>
-        //     <p className="text-sm text-gray-700 mt-1">
-        //       <span className="font-medium">Weeks Remaining:</span> {calculateWeeksRemaining(pregnancy.due_date)} weeks
-        //     </p>
-        //   {/* </div> */}
-
-        // </>
-    )
+  )
 }
 
 

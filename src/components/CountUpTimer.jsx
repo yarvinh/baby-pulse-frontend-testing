@@ -1,18 +1,18 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { formatElapsed, timeToLocal } from "../helpers/date";
+import { PregnancyContext } from "../contexts/PregnancyContext";
 
-const CountUpTimer = ({isTracking,kickSession, setIsRunning, isRunning}) => {
-  const {created_at: createdAt} = kickSession
-    console.log(timeToLocal(createdAt))
+const CountUpTimer = ({dateTime}) => {
+
+  const {isRunning, setIsRunning} = useContext(PregnancyContext)
+
   const [elapsedMs, setElapsedMs] = useState(0);
   const [anchorTs, setAnchorTs] = useState(null)
   const intervalRef = useRef(null);
 
   const start = () => {
-    console.log(isRunning)
-    if (!isTracking) return;
     setElapsedMs(0);
-    setAnchorTs(new Date(timeToLocal(createdAt)));
+    setAnchorTs(new Date(timeToLocal(dateTime)));
     setIsRunning(true);
   };
 
@@ -27,7 +27,9 @@ const CountUpTimer = ({isTracking,kickSession, setIsRunning, isRunning}) => {
     };
 
     tick();
-    if (intervalRef.current) clearInterval(intervalRef.current);
+    if (intervalRef.current){
+      clearInterval(intervalRef.current)
+    }
     intervalRef.current = window.setInterval(tick, 1000); 
 
     return () => {

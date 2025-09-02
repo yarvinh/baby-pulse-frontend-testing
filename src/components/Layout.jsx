@@ -6,9 +6,11 @@ import { fetchLogOut } from "../actions/userActions"
 import { isLoginSessionActive } from "../helpers/token"
 
 const Layout = () => {
+
     const navigate = useNavigate()
-    const {dispatch, userPayload,errorsOrMessages, state} = useContext(PregnancyContext)
-    const { is_login: isLogin, verification_session } = userPayload;
+    const {dispatch, userPayload} = useContext(PregnancyContext)
+    const { is_login: isLogin} = userPayload;
+    const {user} = userPayload
     const handleOnClick = (e) =>{
         fetchLogOut({dispatch: dispatch})
     }
@@ -28,8 +30,11 @@ const Layout = () => {
                         <Link to="login">Log in</Link>
                     </li>}
                     {isLoginSessionActive() &&<li>
-                        <button onClick={handleOnClick}>Log out</button>
+                        <button onClick={handleOnClick} className="p-2 text-gray-500 hover:text-rose-600 hover:bg-rose-50 transition-colors">Log out</button>
                     </li>}
+                    <li>
+                        <p className="text-gray-600 text-base sm:text-lg px-4">Welcome back, {user?.first_name}! </p>
+                    </li>
                 </ul>
             </nav>
            <Outlet/>

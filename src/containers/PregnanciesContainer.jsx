@@ -12,8 +12,9 @@ import { checkForDuePreg } from '../helpers/arrayHelpers';
 const PregnanciesContainer = ()=> {
 
     const [showDueDate,setShowDueDate] = useState(false)
-    const {dispatch,pregnancies} = useContext(PregnancyContext)
-
+    const {dispatch,pregnancies,userPayload} = useContext(PregnancyContext)
+   const {user} = userPayload
+ 
     useEffect(()=>{ 
         isLoginSessionActive() && getFetchActions({
             path: paths().pregnancyPath, 
@@ -25,7 +26,6 @@ const PregnanciesContainer = ()=> {
         })
     },[dispatch])
 
-    
     return (
         <div className="standar-border due-date-container">
             <div className="space-y-4 sm:space-y-6"></div>

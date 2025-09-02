@@ -4,17 +4,15 @@ import { PregnancyContext } from "../../contexts/PregnancyContext";
 import { paths } from "../../helpers/paths";
 import { ACTIONS_TYPES } from "../../actions/actionsHelpers";
 import { patchFetchAction } from "../../actions/fetchings";
-import { findLastCreatedItem } from "../../helpers/arrayHelpers";
 
-const MovementCount = ({preg}) => {
-    const kick_session = findLastCreatedItem(preg.kick_sessions)
-    const isTracking = kick_session?.session_complete
+const MovementCount = ({kick_session}) => {
+    const {pregnancy_id, session_complete: isTracking} = kick_session
     const {dispatch} = useContext(PregnancyContext)
 
     const handleMovementCount = (e) => {
       patchFetchAction({
         payload: {
-          pregnancy_id: preg.id,
+          pregnancy_id: pregnancy_id,
           movements: kick_session.movements + 1,
         }
           , 
