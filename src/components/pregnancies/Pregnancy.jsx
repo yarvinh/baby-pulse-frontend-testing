@@ -10,7 +10,7 @@ import WeeksAndDaysCount from "./WeeksAndDaysCount";
 const Pregnancy = ({pregnancy}) => {
   const [showDueDate,setShowDueDate] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
-  const weeks = [40,37,34]
+  const weeks = [34,37,40]
   return (
       <div className="space-y-0 sm:space-y-0">
         <div className="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl  p-4 sm:p-6 shadow-xl border border-white/20 mb-4 sm:mb-6">
