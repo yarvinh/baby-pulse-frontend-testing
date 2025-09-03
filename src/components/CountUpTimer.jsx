@@ -48,7 +48,6 @@ const CountUpTimer = ({dateTime}) => {
 
   const formatted = useMemo(() => formatElapsed(elapsedMs), [elapsedMs]);
 
-
   return (
     <div className="text-center">
         <div className="text-5xl font-bold tracking-tight tabular-nums">{formatted}</div>
