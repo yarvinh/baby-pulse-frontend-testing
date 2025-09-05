@@ -9,6 +9,7 @@ const Layout = () => {
 
     const navigate = useNavigate()
     const {dispatch, userPayload} = useContext(PregnancyContext)
+    
     const { is_login: isLogin} = userPayload;
     const {user} = userPayload
     const handleOnClick = (e) =>{
@@ -33,7 +34,7 @@ const Layout = () => {
                         <button onClick={handleOnClick} className="p-2 text-gray-500 hover:text-rose-600 hover:bg-rose-50 transition-colors">Log out</button>
                     </li>}
                     <li>
-                        <p className="text-gray-600 text-base sm:text-lg px-4">Welcome back, {user?.first_name}! </p>
+                        <p className="text-gray-600 text-base sm:text-lg px-4">Welcome back{`${user?.first_name ? `, ${user?.first_name}` : ""}`}! </p>
                     </li>
                 </ul>
             </nav>

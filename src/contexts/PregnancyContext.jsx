@@ -21,7 +21,7 @@ export const PregnancyProvider = ({ children }) => {
   const pregnancy = state.pregnancy
   const errorsOrMessages = state.errorsOrMessages
   const pregnancies = state.pregnancies
-  
+
   const value = {
     pregnancies, 
     state,

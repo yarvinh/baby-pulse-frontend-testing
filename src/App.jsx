@@ -8,22 +8,25 @@ import Home from './components/Home';
 import SignUp from './components/user/SignUp';
 import EmailValidation  from './components/user/EmailValidation'
 import { useContext, useEffect } from 'react';
-import { getFetchAction } from './actions/fetchings';
 import { PregnancyContext } from './contexts/PregnancyContext';
-import { paths } from './helpers/paths';
-import { ACTIONS_TYPES } from './actions/actionsHelpers';
 import ForgotPassword from './components/user/ForgotPassword';
 import ResetPassword from './components/user/ResetPassword';
-import { useRef } from 'react';
+import { getFetchActions } from './actions/fetchings';
+import { ACTIONS_TYPES } from './actions/actionsHelpers';
+import { paths } from './helpers/paths';
 
 function App() {
   const {dispatch} = useContext(PregnancyContext)
   let hasFetchedCheckLogin = false
-  const renderCounter = useRef(0)
-
   useEffect(()=>{
     if (hasFetchedCheckLogin) return;
-    getFetchAction({dispatch: dispatch, type: ACTIONS_TYPES.addUser, path: paths().checkLoginPath})
+    getFetchActions({
+      path: paths().checkLoginPath,
+      dispatch: dispatch, 
+      actions:{
+        actionType: ACTIONS_TYPES.addUser, 
+      }
+    })
   },[dispatch])
 
   return (

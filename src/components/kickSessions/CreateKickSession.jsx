@@ -29,6 +29,7 @@ const CreateKickSession = ({kick_session, pregnancy_id})=>{
             patchFetchAction({
                 payload: {
                     pregnancy_id: pregnancy_id, 
+                    movements: kick_session.movements,
                     session_complete: false,
                     time: getCurrentTime(),
                     duration: calculateTime(kick_session.created_at, kick_session.updated_at)

@@ -24,6 +24,8 @@ const SignUp = ()=>{
       last_name: ''
     });
 
+    console.log(errorsOrMessages)
+
     useEffect(()=>{
       isLogin && isLoginSessionActive() && navigate('/')
     },[isLogin])

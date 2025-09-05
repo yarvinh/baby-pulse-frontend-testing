@@ -1,11 +1,11 @@
-import { Plus } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 import { useContext } from "react";
 import { PregnancyContext } from "../../contexts/PregnancyContext";
 import { paths } from "../../helpers/paths";
 import { ACTIONS_TYPES } from "../../actions/actionsHelpers";
 import { patchFetchAction } from "../../actions/fetchings";
 
-const MovementCount = ({kick_session}) => {
+const MovementCount = ({shildren ,kick_session}) => {
     const {pregnancy_id, session_complete: isTracking} = kick_session
     const {dispatch} = useContext(PregnancyContext)
 
@@ -26,6 +26,7 @@ const MovementCount = ({kick_session}) => {
     }
 
     return (
+
         <button 
         onClick={handleMovementCount}
         disabled={!isTracking}
@@ -34,9 +35,9 @@ const MovementCount = ({kick_session}) => {
             ? 'bg-gray-300 cursor-not-allowed'
             : 'bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600'
         }`}
-      >
-        <Plus className="w-5 h-5" />
-      </button>
+        >
+          <Plus className="w-5 h-5" />
+        </button>
     )
 }
 

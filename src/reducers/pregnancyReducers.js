@@ -28,7 +28,7 @@ export const pregnancyReducer = (state, action) => {
           case ACTIONS_TYPES.addErrorsOrMessages:
             return {
               ...state,
-              errorsOrMessages: action.payload.errors_or_messages,
+              errorsOrMessages: action.payload,
               pregnancyLoading: false,
               userLoading: true, 
             };

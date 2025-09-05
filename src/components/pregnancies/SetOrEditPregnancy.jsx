@@ -1,13 +1,15 @@
 import { useContext, useState } from "react";
-import { calculateWeeksRemaining, date } from "../../helpers/date";
+import {  date, remainDaysWeeks } from "../../helpers/date";
 import { Calendar, X } from "lucide-react";
 import { paths } from "../../helpers/paths";
 import { PregnancyContext } from "../../contexts/PregnancyContext";
 import { ACTIONS_TYPES } from "../../actions/actionsHelpers";
+import ErrorsOrMsg from "../ErrosOrMsg";
 
 const SetOrEditPregnancy = ({fetchActions, pregnancy: preg ,setShowDueDate,edit}) => {
-  const {dispatch} = useContext(PregnancyContext)
-    const [pregnancy , setPregnancy] = useState({
+  const {daysRe,weeksRe} = remainDaysWeeks(preg.due_date,40)
+  const {dispatch, errorsOrMessages} = useContext(PregnancyContext)
+  const [pregnancy , setPregnancy] = useState({
         due_date: ""
     })
 
@@ -29,7 +31,6 @@ const SetOrEditPregnancy = ({fetchActions, pregnancy: preg ,setShowDueDate,edit}
                 loading: ACTIONS_TYPES.fetchPregnanciesStart
             }
         })
-        setShowDueDate(false)
     }
 
     return (
@@ -51,6 +52,11 @@ const SetOrEditPregnancy = ({fetchActions, pregnancy: preg ,setShowDueDate,edit}
         </div>
         
         <div className="p-6">
+          <div className="h-8 mb-5">
+            {errorsOrMessages?.from === 'edit_pregnancy' && (<ErrorsOrMsg errors={errorsOrMessages?.errors} msg={errorsOrMessages?.msg}/>)} 
+            {errorsOrMessages?.from === 'create_pregnancy' && (<ErrorsOrMsg errors={errorsOrMessages?.errors} msg={errorsOrMessages?.msg}/>)} 
+          </div>
+
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Expected Due Date
@@ -65,10 +71,10 @@ const SetOrEditPregnancy = ({fetchActions, pregnancy: preg ,setShowDueDate,edit}
           
           {edit && <div className="bg-rose-50 rounded-xl p-4 mb-6">
             <p className="text-sm text-gray-700">
-              <span className="font-medium">Due Date:</span> {date(preg.due_date)}
+              <span className="font-medium">Due Date:</span> {date(preg.due_date,true)}
             </p>
             <p className="text-sm text-gray-700 mt-1">
-              <span className="font-medium">Weeks Remaining:</span> {calculateWeeksRemaining(preg.due_date,0)} weeks
+              <span className="font-medium">Weeks Remaining:</span> {weeksRe} weeks
             </p>
           </div>}
           

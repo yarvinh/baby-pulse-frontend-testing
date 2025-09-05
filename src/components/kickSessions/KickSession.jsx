@@ -4,10 +4,10 @@ import { PregnancyContext } from "../../contexts/PregnancyContext"
 import { deleteFetchAction } from "../../actions/fetchings"
 import { ACTIONS_TYPES } from "../../actions/actionsHelpers"
 import { paths } from "../../helpers/paths"
-import { ChevronRight, Target, Timer, X } from "lucide-react"
+import { Target, Timer, X } from "lucide-react"
 
 const KickSession = ({session}) => {
-    
+    console.log(session)
     const {dispatch} = useContext(PregnancyContext)
     const handleOndeleteSession = (id) => {
         const confirmBox = window.confirm(

@@ -1,29 +1,6 @@
 import { baseUrl } from "../helpers/authHelpers"
-import { ERRORS } from "../helpers/errors"
 import { token } from "../helpers/token"
-import { ACTIONS_TYPES } from "./actionsHelpers"
-const FETCH_ERROR = JSON.stringify("Oops, we couldn’t load the data. Please check your internet and try again!")
-
-export const getFetchAction = async ({path, dispatch, query_string}) => { 
-          try {
-              dispatch({type: ACTIONS_TYPES.fetchUserSart})
-              const response = await fetch(`${baseUrl()}${path}${query_string ? "?query_string=" + query_string : ""}`,{
-                method: "GET", 
-                headers: token(), 
-                withCredentials: true
-              })  
-              if(!response.ok) throw new Error(JSON.stringify(FETCH_ERROR))
-              const data = await response.json()
-              if(data.token?.access_token)
-                localStorage.setItem('access_token', data.token?.access_token)
-                dispatch({type: ACTIONS_TYPES.addUser, payload: data})
-          } catch (error){
-            const errors = JSON.parse(error.message) 
-            dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: errors})
-          }
-  }
-
-
+import { handleDataHelper, handleErrors } from "./actionsHelpers"
 
   export const getFetchActions = async ({path, dispatch, query_string, actions}) => { 
     const {actionType,loading} = actions
@@ -34,18 +11,13 @@ export const getFetchAction = async ({path, dispatch, query_string}) => {
           headers: token(), 
           withCredentials: true
         })  
-        if(!response.ok) throw new Error(JSON.stringify(FETCH_ERROR))
-        const data = await response.json()
-        if(data.token?.access_token)
-          localStorage.setItem('access_token', data.token?.access_token)
-          dispatch({type: actionType, payload: data})
+        await handleDataHelper({
+          dispatch: dispatch, 
+          response: response, 
+          actionType: actionType
+        })
     } catch (error){
-      if (error.message){
-        const err = JSON.parse(error.message) 
-        dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: err})
-      } else {
-        dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: ERRORS})
-      }
+      handleErrors(error, dispatch)
     }
 }
 
@@ -60,19 +32,15 @@ export const getFetchAction = async ({path, dispatch, query_string}) => {
           withCredentials: true, 
           body: JSON.stringify(payload)
         })
-        if(!response.ok) throw new Error(JSON.stringify(FETCH_ERROR))
-        const data = await response.json()
-        dispatch({type: actionType, payload: data})
+        await handleDataHelper({
+          dispatch: dispatch, 
+          response: response, 
+          actionType: actionType
+        })
       }catch (error){
-        const err = JSON.parse(error.message) 
-        if (err){
-          dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: err})
-        } else {
-          dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: ERRORS})
-        }
+        handleErrors(error,dispatch)
       }
   }
-
 
   export const patchFetchAction = async ( {path, dispatch, payload, actions}) => {
     const {actionType,loading} = actions
@@ -81,20 +49,16 @@ export const getFetchAction = async ({path, dispatch, query_string}) => {
         const response = await fetch(`${baseUrl()}${path}`, {
           method: "PATCH", 
           headers: token(), 
-          withCredentials: true, 
+          credentials: 'include',
           body: JSON.stringify(payload)
         })
-        if(!response.ok) throw new Error(JSON.stringify(FETCH_ERROR))
-        const data = await response.json()
-        dispatch({type: actionType, payload: data})
+        await handleDataHelper({
+          dispatch: dispatch, 
+          response: response, 
+          actionType: actionType
+        })
       }catch (error){
-        
-        const err = JSON.parse(error.message) 
-        if (err){
-          dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: err})
-        } else {
-          dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: ERRORS})
-        }
+        handleErrors(error,dispatch)
       }
   }
 
@@ -108,16 +72,18 @@ export const getFetchAction = async ({path, dispatch, query_string}) => {
           headers: token(), 
           withCredentials: true
         })
-        const data = await response.json()
-        if(!response.ok) throw new Error(await response.text())
-        dispatch({type: actionType, payload: data})
+        handleDataHelper({
+          response: response, 
+          dispatch,
+          actionType: actionType
+        })
       } catch(error) {
-        const err = JSON.parse(error.message) 
-        if (err){
-          dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: err})
-        } else {
-          dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: ERRORS})
-        }
+        handleErrors(err,dispatch)
       }
     
   }
+
+
+
+
+ 

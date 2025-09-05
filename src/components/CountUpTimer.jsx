@@ -12,7 +12,7 @@ const CountUpTimer = ({dateTime}) => {
 
   const start = () => {
     setElapsedMs(0);
-    setAnchorTs(new Date(timeToLocal(dateTime)));
+    setAnchorTs(timeToLocal(dateTime));
     setIsRunning(true);
   };
 

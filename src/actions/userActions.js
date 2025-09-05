@@ -20,7 +20,7 @@ export const userPostFetchAction = async ({user,path,dispatch}) => {
         dispatch({type: ACTIONS_TYPES.addUser, payload: data})
       } catch (error){
         const errors = JSON.parse(error.message) 
-        dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: errors})
+        dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: errors.errors_or_messages})
       }
   }
 
@@ -46,7 +46,7 @@ export const login = async ({dispatch, user}) => {
       dispatch({type: ACTIONS_TYPES.addUser, payload: data})
     } catch(error) {
       const errors = JSON.parse(error.message) 
-      dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: errors})
+      dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: errors.errors_or_messages})
     }
   }
 
@@ -65,7 +65,7 @@ export const login = async ({dispatch, user}) => {
       dispatch({type: ACTIONS_TYPES.addUser, payload: data})
     }catch(err){
       const errors = JSON.parse(err.message) 
-      dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: errors})
+      dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: errors.errors_or_messages})
     } 
 }
 

@@ -5,8 +5,12 @@ import { findLastCreatedItem } from "../helpers/arrayHelpers";
 import KickCounterDisplay from "../components/kickSessions/KickCounterDisplay";
 import KickSession from "../components/kickSessions/KickSession";
 import { getMovementsAverage } from "../helpers/date";
+import ErrorsOrMsg from "../components/ErrosOrMsg";
+import { useContext } from "react";
+import { PregnancyContext } from "../contexts/PregnancyContext";
 
 const KickSessionsContainer = ({preg,setShowHistory, showHistory}) => {
+  const {errorsOrMessages} = useContext(PregnancyContext)
   const kick_session = findLastCreatedItem(preg.kick_sessions)
   const {kick_sessions} = preg || []
 
@@ -14,6 +18,7 @@ const KickSessionsContainer = ({preg,setShowHistory, showHistory}) => {
   
     return(
         <div className="bg-white/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl border border-white/20">
+             {errorsOrMessages?.from === 'create_kick_session' && (<ErrorsOrMsg errors={errorsOrMessages?.errors} msg={errorsOrMessages.msg}/>)}
             <div className="flex items-center justify-between mb-4 sm:mb-6">
               <div className="flex items-center gap-2 sm:gap-3">
                 <div className="p-2 sm:p-3 bg-blue-100 rounded-full">
