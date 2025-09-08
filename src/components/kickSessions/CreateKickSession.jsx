@@ -6,8 +6,8 @@ import { patchFetchAction, postFetchAction } from "../../actions/fetchings";
 import { calculateTime, getCurrentTime } from "../../helpers/date";
 import { useEffect } from "react";
 
-const CreateKickSession = ({kick_session, pregnancy_id})=>{
-    const {session_complete: isTracking} = kick_session
+const CreateKickSession = ({kickSession, pregnancy_id})=>{
+    const {session_complete: isTracking} = kickSession
     const { setIsRunning} = useContext(PregnancyContext)
     const {dispatch} = useContext(PregnancyContext)
 
@@ -18,27 +18,27 @@ const CreateKickSession = ({kick_session, pregnancy_id})=>{
                     pregnancy_id: pregnancy_id,
                     duration: "0:0:0"
                 }, 
-                path: `${paths().kickSessions}${isTracking && kick_session? `/${kick_session?.id}` : ""}`, 
+                path: `${paths().kickSessions}${isTracking && kickSession? `/${kickSession?.id}` : ""}`, 
                 dispatch: dispatch, 
                 actions: {
-                    actionType: ACTIONS_TYPES.addPregnancies,
-                    loading: ACTIONS_TYPES.fetchPregnanciesStart
+                    actionType: ACTIONS_TYPES.addKickSession,
+                    loading: ACTIONS_TYPES.fetchKickSessionStart
                 }
             })
         else 
             patchFetchAction({
                 payload: {
                     pregnancy_id: pregnancy_id, 
-                    movements: kick_session.movements,
+                    movements: kickSession.movements,
                     session_complete: false,
                     time: getCurrentTime(),
-                    duration: calculateTime(kick_session.created_at, kick_session.updated_at)
+                    duration: calculateTime(kickSession.created_at, kickSession.updated_at)
                 }, 
-                path: `${paths().kickSessions}${isTracking && kick_session? `/${kick_session?.id}` : ""}`, 
+                path: `${paths().kickSessions}${isTracking && kickSession? `/${kickSession?.id}` : ""}`, 
                 dispatch: dispatch, 
                 actions: {
-                    actionType: ACTIONS_TYPES.addPregnancies,
-                    loading: ACTIONS_TYPES.fetchPregnanciesStart
+                    actionType: ACTIONS_TYPES.editOrRemoveKickSession,
+                    loading: ACTIONS_TYPES.fetchKickSessionStart
                 } 
             })
     }

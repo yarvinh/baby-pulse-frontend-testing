@@ -1,6 +1,6 @@
 import { Activity, History, X} from "lucide-react"
 import CreateKickSession from "../components/kickSessions/CreateKickSession";
-import {postFetchAction } from "../actions/fetchings";
+import {getFetchActions, postFetchAction } from "../actions/fetchings";
 import { findLastCreatedItem } from "../helpers/arrayHelpers";
 import KickCounterDisplay from "../components/kickSessions/KickCounterDisplay";
 import KickSession from "../components/kickSessions/KickSession";
@@ -8,17 +8,34 @@ import { getMovementsAverage } from "../helpers/date";
 import ErrorsOrMsg from "../components/ErrosOrMsg";
 import { useContext } from "react";
 import { PregnancyContext } from "../contexts/PregnancyContext";
+import { useEffect } from "react";
+import { isLoginSessionActive } from "../helpers/token";
+import { ACTIONS_TYPES } from "../actions/actionsHelpers";
+import { paths } from "../helpers/paths";
 
 const KickSessionsContainer = ({preg,setShowHistory, showHistory}) => {
-  const {errorsOrMessages} = useContext(PregnancyContext)
-  const kick_session = findLastCreatedItem(preg.kick_sessions)
-  const {kick_sessions} = preg || []
-
-  const historicalData  = preg.kick_sessions
+  const {errorsOrMessages,dispatch,kickSessions} = useContext(PregnancyContext)
+  const kickSession = findLastCreatedItem(kickSessions)
+  let hasFetched = false
+  useEffect(()=>{ 
+    if(hasFetched) return
+    isLoginSessionActive() && getFetchActions({
+        path: paths().kickSessions, 
+        dispatch: dispatch,
+        query_string: preg.id, 
+        actions: {
+            actionType: ACTIONS_TYPES.addKickSession,
+            loading: ACTIONS_TYPES.fetchKickSessionStart
+        }
+    })
+    hasFetched = true
+  },[dispatch])
   
     return(
         <div className="bg-white/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl border border-white/20">
-             {errorsOrMessages?.from === 'create_kick_session' && (<ErrorsOrMsg errors={errorsOrMessages?.errors} msg={errorsOrMessages.msg}/>)}
+            <div className="h-16">
+              {errorsOrMessages?.from === 'create_kick_session' || errorsOrMessages?.from === 'edit_kick_session' ? (<ErrorsOrMsg errors={errorsOrMessages?.errors} msg={errorsOrMessages.msg}/>) : null}
+            </div>
             <div className="flex items-center justify-between mb-4 sm:mb-6">
               <div className="flex items-center gap-2 sm:gap-3">
                 <div className="p-2 sm:p-3 bg-blue-100 rounded-full">
@@ -31,17 +48,16 @@ const KickSessionsContainer = ({preg,setShowHistory, showHistory}) => {
               </div>
               
               <div className="flex items-center gap-2">
-                {kick_sessions?.length > 0 && <button
+                {kickSessions?.length > 0 && <button
                   onClick={() => setShowHistory(true)}
                   className="p-2 bg-purple-100 text-purple-700 hover:bg-purple-200 rounded-lg transition-colors"
                 >
                   <History className="w-4 h-4" />
                 </button>}
-                <CreateKickSession pregnancy_id={preg.id} kick_session={kick_session} fetchActions={postFetchAction} />
+                <CreateKickSession pregnancy_id={preg.id} kickSession={kickSession} fetchActions={postFetchAction} />
               </div>
             </div>
-             <KickCounterDisplay kick_sessions={kick_sessions} />
-             {/* {showHistory && <HistoryModal  preg={preg} setShowHistory={setShowHistory}/> } */}
+             <KickCounterDisplay kickSessions={kickSessions} />
             {showHistory && <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
               <div className="bg-white rounded-3xl max-w-md w-full max-h-[80vh] overflow-hidden shadow-2xl">
                 <div className="flex items-center justify-between p-6 border-b border-gray-100">
@@ -59,22 +75,21 @@ const KickSessionsContainer = ({preg,setShowHistory, showHistory}) => {
                   </button>
                 </div>
                 <div className="overflow-y-auto max-h-96">
-                  {historicalData.map((session) => (
+                  {kickSessions.map((session) => (
                     <div key={session.id} className="p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors">
                       <KickSession session={session}/>
                     </div>
                   ))}
             </div>
             
-            {historicalData?.length > 4 && <div className="p-4 bg-gray-50 text-center">
+            {kickSessions?.length > 4 && <div className="p-4 bg-gray-50 text-center">
             <p className="text-sm text-gray-600">
-                Average time to 10 movements: <span className="font-medium text-gray-800">{getMovementsAverage(historicalData)}</span>
+                Average time to 10 movements: <span className="font-medium text-gray-800">{getMovementsAverage(kickSessions)}</span>
             </p>
             </div>}
         </div>
         </div>}
       </div>
-
     )
 }
 

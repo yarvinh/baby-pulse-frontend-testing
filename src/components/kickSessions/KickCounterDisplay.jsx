@@ -2,10 +2,12 @@ import { Clock, Target, Timer } from "lucide-react"
 import CountUpTimer from "../CountUpTimer"
 import MovementCount from "./MovementCount"
 import { calculateTime,  changeTimeFormat,  formatTime} from "../../helpers/date"
+import { useContext } from "react"
+import { PregnancyContext } from "../../contexts/PregnancyContext"
 
-const KickCounterDisplay = ({kick_sessions}) => {
-  const kick_session = kick_sessions?.at(0) || {}
-  const {session_complete: isKickSessionTracking, movements, created_at, time, updated_at} = kick_session
+const KickCounterDisplay = () => {
+  const { kickSessions,kickSession} = useContext(PregnancyContext)
+  const {session_complete: isKickSessionTracking, movements, created_at, time, updated_at} = kickSession
     return (
         <div className="space-y-4">
               <div className="bg-gradient-to-r from-blue-50 to-teal-50 rounded-xl p-6 text-center">
@@ -14,7 +16,7 @@ const KickCounterDisplay = ({kick_sessions}) => {
                     <Target className="w-5 h-5 text-blue-600" />
                     <span className="text-gray-700 font-medium text-base sm:text-lg">Movements</span>
                   </div>
-                  <MovementCount kick_session={kick_session}/>
+                  <MovementCount kickSession={kickSession}/>
                 </div>
                 
                 <div className="flex items-center justify-center gap-2 mb-2">
@@ -30,8 +32,8 @@ const KickCounterDisplay = ({kick_sessions}) => {
                   ></div>
                 </div>
                 
-                {kick_sessions.length > 0 && <p className="text-sm text-gray-600">
-                  {kick_session?.movements > 9 ? 'Target reached!' : `${10 - movements} more to go`}
+                {kickSessions.length > 0 && <p className="text-sm text-gray-600">
+                  {kickSession?.movements > 9 ? 'Target reached!' : `${10 - movements} more to go`}
                 </p>}
               </div>
 
@@ -49,12 +51,12 @@ const KickCounterDisplay = ({kick_sessions}) => {
                   </div>
                 )}
                  
-                  {kick_sessions?.length > 0 && <div className="bg-green-50 rounded-xl p-4 text-center">
+                  {kickSessions?.length > 0 && <div className="bg-green-50 rounded-xl p-4 text-center">
                     <div className="flex items-center gap-2 justify-center mb-2">
                       <Target className="w-4 h-4 text-green-600" />
                       <span className="text-sm text-gray-600">{movements} Movements Reached</span>
                     </div>
-                    <p className="text-lg font-bold text-green-600">{kick_session?.duration ? changeTimeFormat(kick_session.duration)  : calculateTime(created_at,updated_at)}</p>
+                    <p className="text-lg font-bold text-green-600">{kickSession?.duration ? changeTimeFormat(kickSession?.duration)  : calculateTime(created_at,updated_at)}</p>
                     <p className="text-xs text-green-500 mt-1">Last measured </p>
                   </div>}
                
@@ -75,6 +77,5 @@ const KickCounterDisplay = ({kick_sessions}) => {
             </div>
     )
 }
-
 
 export default KickCounterDisplay

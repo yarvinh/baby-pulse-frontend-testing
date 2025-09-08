@@ -7,7 +7,7 @@ import { ACTIONS_TYPES } from "../../actions/actionsHelpers";
 import ErrorsOrMsg from "../ErrosOrMsg";
 
 const SetOrEditPregnancy = ({fetchActions, pregnancy: preg ,setShowDueDate,edit}) => {
-  const {daysRe,weeksRe} = remainDaysWeeks(preg.due_date,40)
+  const {weeksRe} = remainDaysWeeks(preg?.due_date,40)
   const {dispatch, errorsOrMessages} = useContext(PregnancyContext)
   const [pregnancy , setPregnancy] = useState({
         due_date: ""
@@ -27,7 +27,7 @@ const SetOrEditPregnancy = ({fetchActions, pregnancy: preg ,setShowDueDate,edit}
             path: `${paths().pregnancyPath}${preg ? `/${preg.id}` : ""}`, 
             dispatch: dispatch, 
             actions: {
-                actionType: ACTIONS_TYPES.addPregnancies,
+                actionType: edit ? ACTIONS_TYPES.editOrRemovePregnancy : ACTIONS_TYPES.addPregnancies,
                 loading: ACTIONS_TYPES.fetchPregnanciesStart
             }
         })
@@ -43,12 +43,12 @@ const SetOrEditPregnancy = ({fetchActions, pregnancy: preg ,setShowDueDate,edit}
             </div>
             <h2 className="text-xl font-bold text-gray-800">{edit ? "Edit Due Date" : "Create new Pregnancy"}</h2> 
           </div>
-          <button
+          {edit && <button
             onClick={() => setShowDueDate(false)}
             className="p-2 hover:bg-gray-100 rounded-full transition-colors"
           >
             <X className="w-5 h-5 text-gray-500" />
-          </button>
+          </button>}
         </div>
         
         <div className="p-6">
@@ -71,7 +71,7 @@ const SetOrEditPregnancy = ({fetchActions, pregnancy: preg ,setShowDueDate,edit}
           
           {edit && <div className="bg-rose-50 rounded-xl p-4 mb-6">
             <p className="text-sm text-gray-700">
-              <span className="font-medium">Due Date:</span> {date(preg.due_date,true)}
+              <span className="font-medium">Due Date:</span> {date(preg?.due_date,true)}
             </p>
             <p className="text-sm text-gray-700 mt-1">
               <span className="font-medium">Weeks Remaining:</span> {weeksRe} weeks

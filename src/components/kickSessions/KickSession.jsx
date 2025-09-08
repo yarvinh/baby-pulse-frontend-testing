@@ -7,7 +7,6 @@ import { paths } from "../../helpers/paths"
 import { Target, Timer, X } from "lucide-react"
 
 const KickSession = ({session}) => {
-    console.log(session)
     const {dispatch} = useContext(PregnancyContext)
     const handleOndeleteSession = (id) => {
         const confirmBox = window.confirm(
@@ -17,8 +16,8 @@ const KickSession = ({session}) => {
             dispatch: dispatch, 
             path: `${paths().kickSessions}/${id}`,
             actions: {
-                actionType: ACTIONS_TYPES.addPregnancies,
-                loading: ACTIONS_TYPES.fetchPregnanciesStart
+                actionType: ACTIONS_TYPES.editOrRemoveKickSession,
+                loading: ACTIONS_TYPES.fetchKickSessionStart
             } 
         }))  
     }

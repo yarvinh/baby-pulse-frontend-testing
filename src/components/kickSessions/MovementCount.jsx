@@ -1,32 +1,30 @@
-import { Minus, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useContext } from "react";
 import { PregnancyContext } from "../../contexts/PregnancyContext";
 import { paths } from "../../helpers/paths";
 import { ACTIONS_TYPES } from "../../actions/actionsHelpers";
 import { patchFetchAction } from "../../actions/fetchings";
 
-const MovementCount = ({shildren ,kick_session}) => {
-    const {pregnancy_id, session_complete: isTracking} = kick_session
+const MovementCount = ({kickSession}) => {
+    const {pregnancy_id, session_complete: isTracking} = kickSession
     const {dispatch} = useContext(PregnancyContext)
 
     const handleMovementCount = (e) => {
       patchFetchAction({
         payload: {
           pregnancy_id: pregnancy_id,
-          movements: kick_session.movements + 1,
-        }
-          , 
-        path: `${paths().kickSessions}${isTracking && kick_session? `/${kick_session?.id}` : ""}`, 
+          movements: kickSession.movements + 1,
+        }, 
+        path: `${paths().kickSessions}${isTracking && kickSession? `/${kickSession?.id}` : ""}`, 
         dispatch: dispatch, 
         actions: {
-            actionType: ACTIONS_TYPES.addPregnancies,
-            loading: ACTIONS_TYPES.fetchPregnanciesStart
+          actionType: ACTIONS_TYPES.editOrRemoveKickSession,
+          loading: ACTIONS_TYPES.fetchKickSessionStart
         } 
     })
     }
 
     return (
-
         <button 
         onClick={handleMovementCount}
         disabled={!isTracking}

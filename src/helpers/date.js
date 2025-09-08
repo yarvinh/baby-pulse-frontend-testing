@@ -8,21 +8,23 @@ export const date = (date, utc = false) => {
 }
 
 export const remainDaysWeeks = (date,weeks)=>{
-  const weeksOfPreg = calculateWeeks(date,true)
-  const daysRe = calculateDaysRemaining(date ,weeks)
+  const currentWeeks = calculateWeeks(date,true)
+  const daysRe = calculateRemainingDays(date ,weeks)
   return {
-   weeksRe: weeks - weeksOfPreg,
+   weeksRe: weeks - currentWeeks,
    daysRe: daysRe
   }
 }
 
-export const calculateDaysRemaining = (dueDate, setWeeks) => {
+export const calculateRemainingDays = (dueDate, setWeeks) => {
   const setWeeksDiffFrom40 = (40 - setWeeks)
   let today = new Date()
   const due = new Date(dueDate)
-  const diffTime = due.getTime() - today.getTime() 
-  const remainingDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24) - (setWeeksDiffFrom40 * 7)) 
-  return Math.max(0, remainingDays)
+  const dSameWallClockLocal = new Date(due.getTime() + due.getTimezoneOffset() * 60_000)
+  const diffTime =  dSameWallClockLocal.getTime() - today.getTime() 
+  const remainingDays = diffTime / (1000 * 60 * 60 * 24) - (setWeeksDiffFrom40 * 7)
+  const fixedDstOffset = fixDstOffset(due.toTimeString(),today.toTimeString(),remainingDays)
+  return Math.max(0, Math.ceil(fixedDstOffset))
 };
 
 export const calculateWeeks = (dueDate) => {
@@ -70,8 +72,9 @@ export const formatTime = (dateString) => {
 export const getCurrentTime = () => new Date()
 
 export const  calculateTime = (createAtTime, endTime) =>{
+  if (!createAtTime || !endTime) return
   const rightNowTime = new Date(endTime);
-  const internationalTime = rightNowTime.toISOString()
+  const internationalTime = rightNowTime?.toISOString()
   const movementSessionTime = new Date(internationalTime)  - new Date(createAtTime)
   const hours = Math.floor(movementSessionTime / (1000 * 60 * 60));
   const minutes = Math.floor((movementSessionTime % (1000 * 60 * 60)) / (1000 * 60))
@@ -94,4 +97,19 @@ export const changeTimeFormat = (time) =>{
    if (time === "0:0:0") return "In progress"
    const [hours, minutes, seconds] = time.split(":")
    return `${hours != "0" ? `${hours} h`: ""} ${minutes != "0" ? `${minutes} min` : ""} ${seconds != "0" ?`${seconds} s` : ""}`
+}
+
+const fixDstOffset = (constantTime,nowTime,days) => {
+  const constant = getOffset(constantTime)
+  const now = getOffset(nowTime)
+  if(constant > now) return days - .041666667
+  if(constant < now) return days + .041666667
+  return  days
+
+}  
+
+const getOffset = (time) =>{
+  const gmt  = time?.indexOf("GMT")
+  const offset = gmt !== -1 ? time?.slice(gmt + 3, gmt + 8) : null;
+  return offset &&  Number(offset?.slice(1)?.slice(1,2))
 }

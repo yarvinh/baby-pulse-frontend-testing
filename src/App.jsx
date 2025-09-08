@@ -14,6 +14,7 @@ import ResetPassword from './components/user/ResetPassword';
 import { getFetchActions } from './actions/fetchings';
 import { ACTIONS_TYPES } from './actions/actionsHelpers';
 import { paths } from './helpers/paths';
+import PregnanciesContainer from './containers/PregnanciesContainer';
 
 function App() {
   const {dispatch} = useContext(PregnancyContext)
@@ -27,13 +28,14 @@ function App() {
         actionType: ACTIONS_TYPES.addUser, 
       }
     })
+    hasFetchedCheckLogin = true
   },[dispatch])
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout/>} >
-          <Route index element={<Home/>} /> 
+          <Route index element={<PregnanciesContainer/>}/> 
           <Route path='login' element={<AuthPage />} />
           <Route path="sign_up" element={<SignUp/>} />
           <Route path='verifying_email' element={<EmailValidation/>} />
