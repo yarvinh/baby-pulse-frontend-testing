@@ -27,7 +27,7 @@ export const PregnancyProvider = ({ children }) => {
   const pregnancies = state.pregnancies
   const kickSessions = state.kickSessions
   const kickSession = state.kickSession
-  console.log(state)
+
   const value = {
     pregnancies, 
     kickSessions,
