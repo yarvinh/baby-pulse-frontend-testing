@@ -37,7 +37,7 @@ export const addRemoveOrEdit = ({data,array, id}) => {
     else if(deletedItemId !== -1) 
       return {
         newArray: deleteItemFromArray({array: array, id: id}),
-        obj: {}
+        obj: array.length > 1 ? array[1] : {}
       }
     else 
       return {
