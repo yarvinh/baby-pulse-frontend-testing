@@ -11,6 +11,7 @@ const Layout = () => {
     const {dispatch, userPayload} = useContext(PregnancyContext)
     const { is_login: isLogin} = userPayload;
     const {user} = userPayload
+
     const handleOnClick = (e) =>{
         fetchLogOut({dispatch: dispatch})
     }
@@ -35,19 +36,16 @@ const Layout = () => {
                     {isLogin && isLoginSessionActive() && <li>
                         <Link to={`users/${user?.id}`} className=" w-6 h-10 sm:w-10 sm:h-10 text-rose-600 p-2 bg-rose-100 text-rose-700 hover:bg-rose-200 rounded-lg transition-colors">Settings</Link>
                     </li>}
-                    {isLoginSessionActive() &&<li onClick={handleOnClick}>
+                    {isLoginSessionActive() &&<li>
                         
                         <button onClick={handleOnClick} 
-                            className="h-9 p-2 bg-rose-100 text-rose-700 hover:bg-rose-200 rounded-lg transition-colors flex items-center justify-center">
-                              <LogOut className="w-6 h-6 sm:w-6 sm:h-6 text-rose-600 text-rose-700 hover:text-rose-600 rounded-lg transition-colors"/>  
+                        className="h-9 p-2 bg-rose-100 text-rose-700 hover:bg-rose-200 rounded-lg transition-colors flex items-center justify-center">
+                            <LogOut className="w-6 h-6 sm:w-6 sm:h-6 text-rose-600 text-rose-700 hover:text-rose-600 rounded-lg transition-colors"/>  
                         </button>
                     </li>}
-                    <li>
-                        <p className="text-rose-600 text-base sm:text-lg px-4">Welcome back{`${user?.first_name ? `, ${user?.first_name}` : ""}`}! </p>
-                    </li>
-
                 </ul>
             </nav>
+            
            <Outlet/>
         </div>
     )

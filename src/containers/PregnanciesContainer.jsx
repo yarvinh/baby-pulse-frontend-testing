@@ -7,7 +7,6 @@ import { ACTIONS_TYPES } from '../actions/actionsHelpers';
 import Pregnancy from "../components/pregnancies/Pregnancy"
 import SetOrEditPregnancy from "../components/pregnancies/SetOrEditPregnancy"
 import { isLoginSessionActive } from '../helpers/token';
-// import { checkForDuePreg } from '../helpers/arrayHelpers';
 import ErrorsOrMsg from '../components/ErrosOrMsg';
 import LoadingItems from '../components/LoadingItems'
 import { useNavigate } from 'react-router';
@@ -17,7 +16,7 @@ const PregnanciesContainer = ()=> {
     const [showDueDate,setShowDueDate] = useState(false)
     const [defaulLoading, setDefaultLoading] = useState(true)
     const {dispatch,pregnancies,errorsOrMessages,pregnanciesLoading, userPayload} = useContext(PregnancyContext)
-    const { is_login: isLogin} = userPayload;
+    const { is_login: isLogin, user} = userPayload;
 
     let hasFetched = false
 
@@ -45,6 +44,7 @@ const PregnanciesContainer = ()=> {
 
     return (
         <div className="pink flex-column center">
+             <p className="text-rose-600 text-base sm:text-lg px-4">Welcome back{`${user?.first_name ? `, ${user?.first_name}` : ""}`}! </p>
         <p className="text-gray-600 text-base sm:text-lg px-4">
            Your pregnancy journey continues beautifully
         </p>
