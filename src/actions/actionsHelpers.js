@@ -19,19 +19,12 @@ export const ACTIONS_TYPES = {
 
 export const handleDataHelper = async ({dispatch,response,actionType}) =>{
     const ct = response.headers.get('content-type') || ''
-
     const isJson = ct.includes('application/json')
-
     if(!response.ok && !isJson) throw new Error(JSON.stringify(ERRORS))
-
     if(!response.ok) throw new Error(await response.text())
-
     const data =  await response.json()
-
     const {msgs} = data
-
     if(data.token?.access_token) localStorage.setItem('access_token', data.token?.access_token)
-    
     if(msgs){
       dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: msgs})
       dispatch({type: actionType, payload: data.data})

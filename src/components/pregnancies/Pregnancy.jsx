@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {  calculateWeeks, date, remainDaysWeeks, } from "../../helpers/date"
+import {date, daysWeeksMath} from "../../helpers/date"
 import { Baby, Calendar, Edit3} from 'lucide-react';
 import SetOrEditPregnancy from "./SetOrEditPregnancy";
 import { patchFetchAction } from "../../actions/fetchings";
@@ -8,9 +8,8 @@ import WeeksAndDaysCount from "./WeeksAndDaysCount";
 import { FETAL_GROWTH_RANGES } from "../../helpers/fetalGrowthRanges";
 
 const Pregnancy = ({pregnancy}) => {
-  const {weeksRe: weeksReOf40} = remainDaysWeeks(pregnancy.due_date,40)
-  const weeksOfpregnancy = calculateWeeks(pregnancy.due_date,true)
-  const weeksIndex = weeksOfpregnancy - 15 
+  const {weeksRe: weeksReOf40, currentWeeks} = daysWeeksMath(pregnancy.due_date,40)
+  const weeksIndex = currentWeeks - 15 
   const presentGrowthRange = FETAL_GROWTH_RANGES.at(weeksIndex)
   const {length_in: length, weight_range_lb: weightRange  } = presentGrowthRange
   const [showDueDate,setShowDueDate] = useState(false)
@@ -38,22 +37,20 @@ const Pregnancy = ({pregnancy}) => {
             </button>
           </div>
           {weeks.map((w,i)=> {
-            if (weeksOfpregnancy < w) {
+            if (currentWeeks < w) {
               return <WeeksAndDaysCount key={i} weeks={w} preg={pregnancy}/>
             }else{
               <></>
             }
           })}
         </div>
-
-        {/* Development Card - Full Width on Mobile */}
         <div className="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-xl border border-white/20">
           <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
             <div className="p-2 sm:p-3 bg-rose-100 rounded-full">
               <Baby className="w-5 h-5 sm:w-6 sm:h-6 text-rose-600" />
             </div>
             <div>
-              <h2 className="text-lg sm:text-xl font-bold text-gray-800">Week {calculateWeeks(pregnancy.due_date,true)}</h2>
+              <h2 className="text-lg sm:text-xl font-bold text-gray-800">Week {currentWeeks}</h2>
               <p className="text-sm sm:text-base text-gray-600">Development Update</p>
             </div>
           </div>

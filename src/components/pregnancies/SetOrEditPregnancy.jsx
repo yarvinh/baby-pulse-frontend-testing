@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import {  date, remainDaysWeeks } from "../../helpers/date";
+import {  date, daysWeeksMath } from "../../helpers/date";
 import { Calendar, X } from "lucide-react";
 import { paths } from "../../helpers/paths";
 import { PregnancyContext } from "../../contexts/PregnancyContext";
@@ -7,7 +7,7 @@ import { ACTIONS_TYPES } from "../../actions/actionsHelpers";
 import ErrorsOrMsg from "../ErrosOrMsg";
 
 const SetOrEditPregnancy = ({fetchActions, pregnancy: preg ,setShowDueDate,edit}) => {
-  const {weeksRe} = remainDaysWeeks(preg?.due_date,40)
+  const {weeksRe} = daysWeeksMath(preg?.due_date,40)
   const {dispatch, errorsOrMessages} = useContext(PregnancyContext)
   const [pregnancy , setPregnancy] = useState({
         due_date: ""

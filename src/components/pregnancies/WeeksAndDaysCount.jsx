@@ -1,7 +1,7 @@
-import { remainDaysWeeks } from "../../helpers/date"
+import { daysWeeksMath } from "../../helpers/date"
 
 const WeeksAndDaysCount = ({preg, weeks}) =>{
-    const {daysRe,weeksRe} = remainDaysWeeks(preg.due_date,weeks)
+    const {daysRe,weeksRe} = daysWeeksMath(preg.due_date,weeks)
     return (
         <div className="mt-4 grid grid-cols-2 gap-4">
         <div className="bg-rose-50 rounded-xl p-3 text-center">

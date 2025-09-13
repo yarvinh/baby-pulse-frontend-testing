@@ -29,19 +29,22 @@ export const editItemFromArray = ({array,item}) => array.map(i =>  i.id === item
 export const addRemoveOrEdit = ({data,array, id}) => {
     const deletedItemId = findIndexById({array: array,id: data.id})
     const itemIdInTheArray = findIndexById({array: array,id: id})
-    if(itemIdInTheArray !== -1 && !id) 
+    if(itemIdInTheArray !== -1 && !id){
       return {
         newArray: editItemFromArray({array: array, item: data}),
         obj: data
       }
-    else if(deletedItemId !== -1) 
+    } else if (deletedItemId !== -1){
+      const deletedItem = deleteItemFromArray({array: array, id: id})
       return {
-        newArray: deleteItemFromArray({array: array, id: id}),
-        obj: array.length > 1 ? array[1] : {}
+        newArray: deletedItem,
+        obj: array.length > 1  ? deletedItem[0] : {}
       }
-    else 
+    } else {
       return {
         newArray: [],
         obj: {}
       }
+    }
   }
+

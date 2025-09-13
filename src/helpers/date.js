@@ -7,16 +7,7 @@ export const date = (date, utc = false) => {
     }
 }
 
-export const remainDaysWeeks = (date,weeks)=>{
-  const currentWeeks = calculateWeeks(date,true)
-  const daysRe = calculateRemainingDays(date ,weeks)
-  return {
-   weeksRe: weeks - currentWeeks,
-   daysRe: daysRe
-  }
-}
-
-export const calculateRemainingDays = (dueDate, setWeeks) => {
+export const daysWeeksMath = (dueDate, setWeeks) => {
   const setWeeksDiffFrom40 = (40 - setWeeks)
   let today = new Date()
   const due = new Date(dueDate)
@@ -24,17 +15,12 @@ export const calculateRemainingDays = (dueDate, setWeeks) => {
   const diffTime =  dSameWallClockLocal.getTime() - today.getTime() 
   const remainingDays = diffTime / (1000 * 60 * 60 * 24) - (setWeeksDiffFrom40 * 7)
   const fixedDstOffset = fixDstOffset(due.toTimeString(),today.toTimeString(),remainingDays)
-  return Math.max(0, Math.ceil(fixedDstOffset))
-};
-
-export const calculateWeeks = (dueDate) => {
-  const today = new Date()
-  let due = new Date(dueDate)
-  const dSameWallClockLocal = new Date(due.getTime() + due.getTimezoneOffset() * 60_000)
-  const diffTime = dSameWallClockLocal.getTime() - today.getTime()
-  const remainingWeeks = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 7))
-  const totalWeeks = 40 - Math.max(0, remainingWeeks) 
-  return Math.max(0, Math.min(40, totalWeeks))
+  const weeksRe = fixedDstOffset / 7
+  return {
+    daysRe: Math.max(0, Math.ceil(fixedDstOffset)),
+    weeksRe:  Math.max(0, Math.ceil(weeksRe)),
+    currentWeeks: setWeeks - Math.max(0, Math.ceil(weeksRe)) 
+  }
 };
 
 export const getMovementsAverage = (sessions) => {

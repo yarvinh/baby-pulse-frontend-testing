@@ -5,9 +5,7 @@ export const PregnancyContext = createContext();
 const initialState = {
   user: {is_login: false, user: {}},
   userLoading: false,
-  pregnancy: {
-    kicks: []
-  },
+  pregnancy: {},
   kickSessions: [],
   kickSession: {},
   pregnancies: [],
@@ -15,9 +13,8 @@ const initialState = {
   pregnanciesLoading: false,
   kickSessionLoading: false,
   errorsOrMessages: {}
-  
 }
-  // console.log(state)
+
 export const PregnancyProvider = ({ children }) => {
   const [state, dispatch] = useReducer(pregnancyReducer,initialState)
   const [isRunning, setIsRunning] = useState(false)
@@ -27,20 +24,23 @@ export const PregnancyProvider = ({ children }) => {
   const pregnancies = state.pregnancies
   const kickSessions = state.kickSessions
   const kickSession = state.kickSession
-
+  const pregnanciesLoading = state.pregnanciesLoading  
+  const kickSessionLoading = state.kickSessionLoading
   const value = {
-    pregnancies, 
-    kickSessions,
-    kickSession,
-    state,
+    kickSessionLoading,
     userPayload,
     pregnancy,
+    pregnancies,
+    pregnanciesLoading,
+    kickSession,
+    kickSessions,
     errorsOrMessages,
+    state,
     dispatch,
     isRunning, 
     setIsRunning
   }
-
+//  console.log(state)
   return (
     <PregnancyContext.Provider value={value}>
       {children}

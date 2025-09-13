@@ -7,17 +7,22 @@ export const pregnancyReducer = (state, action) => {
       case ACTIONS_TYPES.fetchUserSart:
         return { 
           ...state, 
-          userLoading: true, 
+          userLoading: true
         };
       case ACTIONS_TYPES.fetchPregnancyStart:
         return { 
           ...state, 
-          pregnancyLoading: true,
+          pregnancyLoading: true
         };
       case ACTIONS_TYPES.fetchPregnanciesStart:
         return { 
           ...state, 
-          pregnanciesLoading: true,
+          pregnanciesLoading: true
+      };
+      case ACTIONS_TYPES.fetchKickSessionStart:
+        return { 
+          ...state, 
+          kickSessionLoading: true
       };
       case ACTIONS_TYPES.addKickSession:
           return {
@@ -25,7 +30,7 @@ export const pregnancyReducer = (state, action) => {
             kickSessions: !isPayloadAnArray ? [action.payload, ...state.kickSessions] : action.payload,
             kickSession: !isPayloadAnArray ? action.payload :(action.payload?.length > 0) && action.payload.at(0) || {},
             kickSessionLoading: false,
-            kickSessionsLoading:  false
+            kickSessionsLoading:  false,
           }
       case ACTIONS_TYPES.editOrRemoveKickSession:
         const {newArray: kickSessions , obj: kickSession} =  addRemoveOrEdit({
@@ -41,6 +46,7 @@ export const pregnancyReducer = (state, action) => {
           kickSessionsLoading:  false
         }
       case ACTIONS_TYPES.addUser:
+        // console.log(action.payload)
         return {
           ...state,
           user: action.payload,
@@ -51,7 +57,8 @@ export const pregnancyReducer = (state, action) => {
           ...state,
           errorsOrMessages: action.payload,
           pregnancyLoading: false,
-          userLoading: true, 
+          pregnanciesLoading: false,
+          userLoading: false 
         };
 
         case ACTIONS_TYPES.editOrRemovePregnancy:
@@ -64,8 +71,7 @@ export const pregnancyReducer = (state, action) => {
             ...state,
             pregnancies: pregnancies,
             pregnancy: pregnancy,
-            pregnancyLoading: false,
-            PregnanciesLoading: false
+            pregnancyLoading: false
           }
       case ACTIONS_TYPES.addPregnancies:
         return {

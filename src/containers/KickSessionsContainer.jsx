@@ -12,9 +12,9 @@ import { useEffect } from "react";
 import { isLoginSessionActive } from "../helpers/token";
 import { ACTIONS_TYPES } from "../actions/actionsHelpers";
 import { paths } from "../helpers/paths";
-
+import LoadingItems from "../components/LoadingItems"
 const KickSessionsContainer = ({preg,setShowHistory, showHistory}) => {
-  const {errorsOrMessages,dispatch,kickSessions} = useContext(PregnancyContext)
+  const {errorsOrMessages,dispatch,kickSessions,kickSessionLoading} = useContext(PregnancyContext)
   const kickSession = findLastCreatedItem(kickSessions)
   let hasFetched = false
   useEffect(()=>{ 
@@ -34,6 +34,7 @@ const KickSessionsContainer = ({preg,setShowHistory, showHistory}) => {
     return(
         <div className="bg-white/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl border border-white/20">
             <div className="h-16">
+            {kickSessionLoading && <LoadingItems/>}
               {errorsOrMessages?.from === 'create_kick_session' || errorsOrMessages?.from === 'edit_kick_session' ? (<ErrorsOrMsg errors={errorsOrMessages?.errors} msg={errorsOrMessages.msg}/>) : null}
             </div>
             <div className="flex items-center justify-between mb-4 sm:mb-6">

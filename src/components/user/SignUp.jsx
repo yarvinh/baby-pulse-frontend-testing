@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { Heart, Eye, EyeOff, Mail, Lock, User, Calendar, ArrowLeft } from 'lucide-react';
 import { useContext } from 'react';
-import { login, userPostFetchAction } from '../../actions/userActions';
+import { userPostFetchAction } from '../../actions/userActions';
 import { PregnancyContext } from '../../contexts/PregnancyContext';
 import { useNavigate } from 'react-router';
 import { paths } from '../../helpers/paths';
 import { useEffect } from 'react';
-import ErrorsOrMsg from '../ErrosOrMsg';
+import { errorsOrganizer } from '../../helpers/errors';
+import { isLoginSessionActive } from '../../helpers/token';
 
 const SignUp = ()=>{
     const navigate = useNavigate()
     const {dispatch, userPayload, errorsOrMessages,state, valid_email} = useContext(PregnancyContext)
+    const {email, firstName, lastName, username, password, passwordConfirmation} = errorsOrganizer(errorsOrMessages)
+
     const { is_login: isLogin, verification_session } = userPayload;
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -23,8 +26,6 @@ const SignUp = ()=>{
       first_name: '',
       last_name: ''
     });
-
-    console.log(errorsOrMessages)
 
     useEffect(()=>{
       isLogin && isLoginSessionActive() && navigate('/')
@@ -88,9 +89,6 @@ const SignUp = ()=>{
                 </div>
       
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  <div>
-                    {errorsOrMessages?.from === 'create_user' && (<ErrorsOrMsg errors={errorsOrMessages?.errors} msg={errorsOrMessages.msg}/>)}
-                  </div>
                   {!isLogin && (
                     <>
                       <div className="grid grid-cols-2 gap-3">
@@ -106,13 +104,13 @@ const SignUp = ()=>{
                               value={user.first_name}
                               onChange={handleInputChange}
                               className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-colors ${
-                                errors.first_name ? 'border-red-300 bg-red-50' : 'border-gray-200'
+                                firstName ? 'border-red-300 bg-red-50' : 'border-gray-200'
                               }`}
                               placeholder="First name"
                             />
                           </div>
-                          {errors.first_name && (
-                            <p className="text-red-500 text-xs mt-1">{errors.first_name}</p>
+                          {firstName && (
+                            <p className="text-red-500 text-xs mt-1">{firstName}</p>
                           )}
                         </div>
                         
@@ -128,13 +126,13 @@ const SignUp = ()=>{
                               value={user.last_name}
                               onChange={handleInputChange}
                               className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-colors ${
-                                errors.last_name ? 'border-red-300 bg-red-50' : 'border-gray-200'
+                                lastName ? 'border-red-300 bg-red-50' : 'border-gray-200'
                               }`}
                               placeholder="Last name"
                             />
                           </div>
-                          {errors.last_name && (
-                            <p className="text-red-500 text-xs mt-1">{errors.last_name}</p>
+                          {lastName && (
+                            <p className="text-red-500 text-xs mt-1">{lastName}</p>
                           )}
                         </div>
                       </div>
@@ -154,13 +152,13 @@ const SignUp = ()=>{
                           value={user.username}
                           onChange={handleInputChange}
                           className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-colors ${
-                            errors.username? 'border-red-300 bg-red-50' : 'border-gray-200'
+                            username? 'border-red-300 bg-red-50' : 'border-gray-200'
                           }`}
                           placeholder="Username"
                         />
                       </div>
-                      {errors.username && (
-                        <p className="text-red-500 text-xs mt-1">{errors.username}</p>
+                      {username && (
+                        <p className="text-red-500 text-xs mt-1">{username}</p>
                       )}
                     </div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -179,8 +177,8 @@ const SignUp = ()=>{
                         placeholder="your@email.com"
                       />
                     </div>
-                    {errors.email && (
-                      <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                    {email && (
+                      <p className="text-red-500 text-xs mt-1">{email}</p>
                     )}
                   </div>
       
@@ -196,7 +194,7 @@ const SignUp = ()=>{
                         value={user.password}
                         onChange={handleInputChange}
                         className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-colors ${
-                          errors.password ? 'border-red-300 bg-red-50' : 'border-gray-200'
+                          password ? 'border-red-300 bg-red-50' : 'border-gray-200'
                         }`}
                         placeholder="Enter your password"
                       />
@@ -208,8 +206,8 @@ const SignUp = ()=>{
                         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
-                    {errors.password && (
-                      <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+                    {password && (
+                      <p className="text-red-500 text-xs mt-1">{password}</p>
                     )}
                   </div>
       
@@ -226,7 +224,7 @@ const SignUp = ()=>{
                           value={user.password_confirmation}
                           onChange={handleInputChange}
                           className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-colors ${
-                            errors.password_confirmation ? 'border-red-300 bg-red-50' : 'border-gray-200'
+                            passwordConfirmation ? 'border-red-300 bg-red-50' : 'border-gray-200'
                           }`}
                           placeholder="Confirm your password"
                         />
@@ -238,8 +236,8 @@ const SignUp = ()=>{
                           {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                         </button>
                       </div>
-                      {errors.confirmPassword && (
-                        <p className="text-red-500 text-xs mt-1">{errors.confirmPassword}</p>
+                      {passwordConfirmation && (
+                        <p className="text-red-500 text-xs mt-1">{passwordConfirmation}</p>
                       )}
                     </div>
                   )}
