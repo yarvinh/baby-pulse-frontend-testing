@@ -1,6 +1,5 @@
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import {  useEffect, useMemo, useRef, useState } from "react";
 import { formatElapsed, timeToLocal } from "../helpers/date";
-import { PregnancyContext } from "../contexts/PregnancyContext";
 
 const CountUpTimer = ({dateTime,isRunning, setIsRunning}) => {
 
@@ -16,9 +15,6 @@ const CountUpTimer = ({dateTime,isRunning, setIsRunning}) => {
 
   useEffect(() => {
     if (!isRunning) start()
-
-    if (!isRunning) return;
-
     const tick = () => {
       const now = Date.now();
       const base = anchorTs ?? now;
