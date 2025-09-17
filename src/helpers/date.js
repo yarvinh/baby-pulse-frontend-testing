@@ -19,7 +19,8 @@ export const daysWeeksMath = (dueDate, setWeeks) => {
   return {
     daysRe: Math.max(0, Math.ceil(fixedDstOffset)),
     weeksRe:  Math.max(0, Math.ceil(weeksRe)),
-    currentWeeks: setWeeks - Math.max(0, Math.ceil(weeksRe)) 
+    currentWeeks: setWeeks - Math.max(0, Math.ceil(weeksRe)), 
+    currentDays: 280 - Math.max(0, Math.ceil(fixedDstOffset))
   }
 };
 
