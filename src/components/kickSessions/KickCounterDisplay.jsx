@@ -2,17 +2,14 @@ import { Activity, Clock, History, Target, Timer } from "lucide-react"
 import CountUpTimer from "../CountUpTimer"
 import MovementCount from "./MovementCount"
 import { calculateTime,  changeTimeFormat,  formatTime} from "../../helpers/date"
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { PregnancyContext } from "../../contexts/PregnancyContext"
 import CreateKickSession from "./CreateKickSession"
 import { postFetchAction } from "../../actions/fetchings"
-import ErrorsOrMsg from "../ErrosOrMsg"
 import LoadingItems from "../LoadingItems"
 
 const KickCounterDisplay = ({setShowHistory, preg}) => {
-
   const { kickSessions,kickSession, errorsOrMessages, kickSessionLoading} = useContext(PregnancyContext)
-  const [isRunning, setIsRunning] = useState(false)
   const {session_complete: isKickSessionTracking, movements, created_at, updated_at} = kickSession
     
   return (
@@ -38,7 +35,7 @@ const KickCounterDisplay = ({setShowHistory, preg}) => {
                 >
                   <History className="w-4 h-4" />
                 </button>}
-                <CreateKickSession setIsRunning={setIsRunning} pregnancy_id={preg?.id} kickSession={kickSession} fetchActions={postFetchAction} />
+                <CreateKickSession pregnancy_id={preg?.id} kickSession={kickSession} fetchActions={postFetchAction} />
               </div>
             </div>
               <div className="bg-gradient-to-r from-blue-50 to-teal-50 rounded-xl p-6 text-center">
@@ -47,7 +44,7 @@ const KickCounterDisplay = ({setShowHistory, preg}) => {
                     <Target className="w-5 h-5 text-blue-600" />
                     <span className="text-gray-700 font-medium text-base sm:text-lg">Movements</span>
                   </div>
-                  <MovementCount kickSession={kickSession} isRunning={isRunning} setIsRunning={setIsRunning}/>
+                  <MovementCount kickSession={kickSession} />
                 </div>
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <p className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent">
@@ -71,7 +68,7 @@ const KickCounterDisplay = ({setShowHistory, preg}) => {
                       <Timer className="w-4 h-4 text-amber-600" />
                       <span className="text-sm text-gray-600">Current Session</span>
                     </div>
-                    {isKickSessionTracking && <CountUpTimer isRunning={isRunning} setIsRunning={setIsRunning} dateTime={created_at}/>}
+                    {isKickSessionTracking && <CountUpTimer  dateTime={created_at}/>}
                     <p className="text-2xl font-bold text-amber-600">{formatTime(created_at)}</p>
                   </div>
                 )}

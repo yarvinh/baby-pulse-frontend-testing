@@ -13,8 +13,7 @@ import { PregnancyContext } from "../contexts/PregnancyContext"
 
 const BHCtxContainer = ({preg}) => {
   const {id} = preg
-  const [isRunning, setIsRunning] = useState(false)
-  const {errorsOrMessages,dispatch, bhctr, bhctx, bhctxLoading, bhctrLoading } = useContext(PregnancyContext)
+  const {errorsOrMessages,dispatch, bhctr, bhctx, bhctrLoading } = useContext(PregnancyContext)
   const [showBHCtx, setShowBHCtx] = useState(false)
   const {completed, created_at } = bhctr
   const frequency = getFrequency(bhctx)
@@ -34,10 +33,6 @@ const BHCtxContainer = ({preg}) => {
     })
     hasFetched = true
   },[dispatch])
-
-  useEffect(() => {
-    if (!bhctr?.completed) return setIsRunning(false);
-  },[bhctr])
 
   const handleOnClick = (e) =>{
 
@@ -112,7 +107,7 @@ const BHCtxContainer = ({preg}) => {
                     <Timer className="w-4 h-4 text-amber-600" />
                     <span className="text-sm text-gray-600">Current Session</span>
                 </div>
-                {bhctr.id && !completed && <CountUpTimer setIsRunning={setIsRunning} isRunning={isRunning} dateTime={created_at}/>}
+                {bhctr.id && !completed && <CountUpTimer  dateTime={created_at}/>}
                 {bhctr.id && <p className="text-2xl font-bold text-amber-600">{formatTime(created_at)}</p>}
             </div>
 

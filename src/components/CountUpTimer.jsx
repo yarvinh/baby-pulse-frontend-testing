@@ -1,7 +1,7 @@
 import {  useEffect, useMemo, useRef, useState } from "react";
 import { formatElapsed, timeToLocal } from "../helpers/date";
 
-const CountUpTimer = ({dateTime,isRunning, setIsRunning}) => {
+const CountUpTimer = ({dateTime}) => {
 
   const [elapsedMs, setElapsedMs] = useState(0);
   const [anchorTs, setAnchorTs] = useState(null)
@@ -10,11 +10,11 @@ const CountUpTimer = ({dateTime,isRunning, setIsRunning}) => {
   const start = () => {
     setElapsedMs(0);
     setAnchorTs(timeToLocal(dateTime));
-    setIsRunning(true) 
   };
+
   let startClock = false
   useEffect(() => {
-    if (!isRunning && !startClock) start()
+    if (!startClock) start()
     startClock = true
   }, []);
 
@@ -36,7 +36,7 @@ const CountUpTimer = ({dateTime,isRunning, setIsRunning}) => {
 
   return (
     <div className="text-center">
-        <div className="text-5xl font-bold tracking-tight tabular-nums">{formatted}</div>
+      <div className="text-5xl font-bold tracking-tight tabular-nums">{formatted}</div>
     </div>
   );
 }
