@@ -12,10 +12,11 @@ const CountUpTimer = ({dateTime,isRunning, setIsRunning}) => {
     setAnchorTs(timeToLocal(dateTime));
     setIsRunning(true) 
   };
-
+  let startClock = false
   useEffect(() => {
-    if (!isRunning) start()
-  }, [isRunning]);
+    if (!isRunning && !startClock) start()
+    startClock = true
+  }, []);
 
   useEffect(() => {
     const tick = () => {
