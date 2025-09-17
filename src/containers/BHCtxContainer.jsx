@@ -17,7 +17,7 @@ const BHCtxContainer = ({preg}) => {
   const [showBHCtx, setShowBHCtx] = useState(false)
   const {completed, created_at } = bhctr
   const frequency = getFrequency(bhctx)
-
+  
   let hasFetched = false
 
   useEffect(()=>{ 
@@ -107,7 +107,7 @@ const BHCtxContainer = ({preg}) => {
                     <Timer className="w-4 h-4 text-amber-600" />
                     <span className="text-sm text-gray-600">Current Session</span>
                 </div>
-                {bhctr.id && !completed && <CountUpTimer  dateTime={created_at}/>}
+                {bhctr.id && !completed && !bhctrLoading && <CountUpTimer  dateTime={created_at}/>}
                 {bhctr.id && <p className="text-2xl font-bold text-amber-600">{formatTime(created_at)}</p>}
             </div>
 

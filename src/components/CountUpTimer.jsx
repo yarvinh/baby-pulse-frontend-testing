@@ -6,12 +6,10 @@ const CountUpTimer = ({dateTime}) => {
   const [elapsedMs, setElapsedMs] = useState(0);
   const [anchorTs, setAnchorTs] = useState(null)
   const intervalRef = useRef(null);
-
   const start = () => {
     setElapsedMs(0);
     setAnchorTs(timeToLocal(dateTime));
   };
-
   let startClock = false
   useEffect(() => {
     if (!startClock) start()

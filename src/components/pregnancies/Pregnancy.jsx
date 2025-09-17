@@ -12,7 +12,7 @@ const Pregnancy = ({pregnancy}) => {
   const {weeksRe: weeksReOf40, currentWeeks} = daysWeeksMath(pregnancy.due_date,40)
   const weeksIndex = currentWeeks - 15 
   const presentGrowthRange = FETAL_GROWTH_RANGES.at(weeksIndex)
-  const {length_in: length, weight_range_lb: weightRange  } = presentGrowthRange
+  const {week, length_in: length, weight_range_lb: weightRange, thisWeek, survivalRate } = presentGrowthRange
   const [showDueDate,setShowDueDate] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
   const weeks = [34,37,40]
@@ -59,8 +59,10 @@ const Pregnancy = ({pregnancy}) => {
           <div className="bg-gradient-to-r from-rose-50 to-pink-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6">
             <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-2 sm:mb-3">This Week's Milestone</h3>
             <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-              Your baby's hearing is developing rapidly! They can now hear your voice and may respond to sounds. 
-              Try talking, singing, or playing gentle music - your little one is listening and learning to recognize your voice.
+              {week > 14 && thisWeek}
+            </p>
+            <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+            {week > 23 && `Survival Rate: ${survivalRate}`}
             </p>
           </div>
 
