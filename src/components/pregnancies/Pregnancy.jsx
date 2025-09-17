@@ -6,7 +6,6 @@ import { patchFetchAction } from "../../actions/fetchings";
 import KickSessionsContainer from "../../containers/KickSessionsContainer";
 import WeeksAndDaysCount from "./WeeksAndDaysCount";
 import { FETAL_GROWTH_RANGES } from "../../helpers/fetalGrowthRanges";
-import BHCtx from "../bHCtx/bHCtx";
 import BHCtxContainer from "../../containers/BHCtxContainer";
 
 const Pregnancy = ({pregnancy}) => {

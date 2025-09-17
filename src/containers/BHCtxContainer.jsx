@@ -14,11 +14,11 @@ import { PregnancyContext } from "../contexts/PregnancyContext"
 const BHCtxContainer = ({preg}) => {
   const {id} = preg
   const [isRunning, setIsRunning] = useState(false)
-  const {errorsOrMessages,dispatch,bhctr, bhctx, bhctxLoading, bhctrLoading } = useContext(PregnancyContext)
+  const {errorsOrMessages,dispatch, bhctr, bhctx, bhctxLoading, bhctrLoading } = useContext(PregnancyContext)
   const [showBHCtx, setShowBHCtx] = useState(false)
   const {completed, created_at } = bhctr
   const frequency = getFrequency(bhctx)
-  
+
   let hasFetched = false
 
   useEffect(()=>{ 
