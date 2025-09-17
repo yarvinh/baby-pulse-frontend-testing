@@ -15,6 +15,9 @@ const CountUpTimer = ({dateTime,isRunning, setIsRunning}) => {
 
   useEffect(() => {
     if (!isRunning) start()
+  }, [isRunning]);
+
+  useEffect(() => {
     const tick = () => {
       const now = Date.now();
       const base = anchorTs ?? now;
@@ -26,20 +29,7 @@ const CountUpTimer = ({dateTime,isRunning, setIsRunning}) => {
       clearInterval(intervalRef.current)
     }
     intervalRef.current = window.setInterval(tick, 1000); 
-
-    // return () => {
-    //   if (intervalRef.current) {
-    //     clearInterval(intervalRef.current);
-    //     intervalRef.current = null;
-    //   }
-    // };
-  }, [isRunning]);
-
-  // useEffect(() => {
-  //   if (!isRunning && anchorTs != null) {
-  //     setElapsedMs((prev) => prev)
-  //   }
-  // }, [isRunning]);
+  }, [anchorTs]);
 
   const formatted = useMemo(() => formatElapsed(elapsedMs), [elapsedMs]);
 
