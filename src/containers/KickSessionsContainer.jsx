@@ -13,9 +13,8 @@ import { isLoginSessionActive } from "../helpers/token";
 import { ACTIONS_TYPES } from "../actions/actionsHelpers";
 import { paths } from "../helpers/paths";
 import LoadingItems from "../components/LoadingItems"
-const KickSessionsContainer = ({preg,setShowHistory, showHistory}) => {
+const KickSessionsContainer = ({preg, setShowHistory, showHistory}) => {
   const {errorsOrMessages,dispatch,kickSessions,kickSessionLoading} = useContext(PregnancyContext)
-  const kickSession = findLastCreatedItem(kickSessions)
   let hasFetched = false
   useEffect(()=>{ 
     if(hasFetched) return
@@ -33,12 +32,12 @@ const KickSessionsContainer = ({preg,setShowHistory, showHistory}) => {
   
     return(
         <div className="bg-white/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl border border-white/20">
-            <div className="h-16">
+            {/* <div className="h-16">
             {kickSessionLoading && <LoadingItems/>}
               {errorsOrMessages?.from === 'create_kick_session' || errorsOrMessages?.from === 'edit_kick_session' ? (<ErrorsOrMsg errors={errorsOrMessages?.errors} msg={errorsOrMessages.msg}/>) : null}
-            </div>
-            <div className="flex items-center justify-between mb-4 sm:mb-6">
-              <div className="flex items-center gap-2 sm:gap-3">
+            </div> */}
+            {/* <div className="flex items-center justify-between mb-4 sm:mb-6"> */}
+              {/* <div className="flex items-center gap-2 sm:gap-3">
                 <div className="p-2 sm:p-3 bg-blue-100 rounded-full">
                   <Activity className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
                 </div>
@@ -46,19 +45,19 @@ const KickSessionsContainer = ({preg,setShowHistory, showHistory}) => {
                   <h2 className="text-base sm:text-lg font-bold text-gray-800">Movement Tracker</h2>
                   <p className="text-sm sm:text-base text-gray-600">Count to 10 movements</p>
                 </div>
-              </div>
+              </div> */}
               
-              <div className="flex items-center gap-2">
+              {/* <div className="flex items-center gap-2">
                 {kickSessions?.length > 0 && <button
                   onClick={() => setShowHistory(true)}
                   className="p-2 bg-purple-100 text-purple-700 hover:bg-purple-200 rounded-lg transition-colors"
                 >
                   <History className="w-4 h-4" />
                 </button>}
-                <CreateKickSession pregnancy_id={preg.id} kickSession={kickSession} fetchActions={postFetchAction} />
-              </div>
-            </div>
-             <KickCounterDisplay kickSessions={kickSessions} />
+                <CreateKickSession setIsRunning={()=>true}pregnancy_id={preg.id} kickSession={kickSession} fetchActions={postFetchAction} />
+              </div> */}
+            {/* </div> */}
+             <KickCounterDisplay preg={preg} kickSessions={kickSessions} setShowHistory={setShowHistory}   />
             {showHistory && <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
               <div className="bg-white rounded-3xl max-w-md w-full max-h-[80vh] overflow-hidden shadow-2xl">
                 <div className="flex items-center justify-between p-6 border-b border-gray-100">
@@ -82,7 +81,6 @@ const KickSessionsContainer = ({preg,setShowHistory, showHistory}) => {
                     </div>
                   ))}
             </div>
-            
             {kickSessions?.length > 4 && <div className="p-4 bg-gray-50 text-center">
             <p className="text-sm text-gray-600">
                 Average time to 10 movements: <span className="font-medium text-gray-800">{getMovementsAverage(kickSessions)}</span>

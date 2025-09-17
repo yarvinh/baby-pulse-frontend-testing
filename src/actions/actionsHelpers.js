@@ -13,7 +13,10 @@ export const ACTIONS_TYPES = {
     addPregnancies: "ADD_PREGNANCIES",
     addKickSession: "ADD_KICK_SESSION",
     editOrRemoveKickSession: "EDIT_OR_REMOVE_KICK_SESSION",
-
+    addBhctx: "ADD_BHCTX",
+    editOrRemoveBhctr: "EDIT_OR_REMOVE_BHCTR",
+    fetchBhctrStart:  "FETCH_BHCTR_START",
+    fetchBhctxStart:  "FETCH_BHCTX_START"
 }
 
 

@@ -6,9 +6,8 @@ import { patchFetchAction, postFetchAction } from "../../actions/fetchings";
 import { calculateTime, getCurrentTime } from "../../helpers/date";
 import { useEffect } from "react";
 
-const CreateKickSession = ({kickSession, pregnancy_id})=>{
+const CreateKickSession = ({kickSession, pregnancy_id, setIsRunning})=>{
     const {session_complete: isTracking} = kickSession
-    const { setIsRunning} = useContext(PregnancyContext)
     const {dispatch} = useContext(PregnancyContext)
 
     const handleOnClick = (e) =>{

@@ -24,6 +24,20 @@ export const pregnancyReducer = (state, action) => {
           ...state, 
           kickSessionLoading: true
       };
+
+      case ACTIONS_TYPES.fetchBhctrStart:
+        return { 
+          ...state, 
+          bhctrLoading: true
+      };
+
+      case ACTIONS_TYPES.fetchBhctxStart:
+        return { 
+          ...state, 
+          bhctxLoading: true
+      };
+
+
       case ACTIONS_TYPES.addKickSession:
           return {
             ...state,
@@ -32,12 +46,14 @@ export const pregnancyReducer = (state, action) => {
             kickSessionLoading: false,
             kickSessionsLoading:  false,
           }
+
       case ACTIONS_TYPES.editOrRemoveKickSession:
         const {newArray: kickSessions , obj: kickSession} =  addRemoveOrEdit({
           data:  action.payload ,
           array: state.kickSessions, 
           id: action?.payload?.kick_session_id
         })
+
         return {
           ...state,
           kickSessions: kickSessions,
@@ -45,44 +61,64 @@ export const pregnancyReducer = (state, action) => {
           kickSessionLoading: false,
           kickSessionsLoading:  false
         }
-      case ACTIONS_TYPES.addUser:
-        // console.log(action.payload)
-        return {
-          ...state,
-          user: action.payload,
-          userLoading: false
-        };
-      case ACTIONS_TYPES.addErrorsOrMessages:
-        return {
-          ...state,
-          errorsOrMessages: action.payload,
-          pregnancyLoading: false,
-          pregnanciesLoading: false,
-          userLoading: false 
-        };
-
-        case ACTIONS_TYPES.editOrRemovePregnancy:
-          const {newArray: pregnancies , obj: pregnancy} =  addRemoveOrEdit({
+        case ACTIONS_TYPES.addBhctx:
+          return {
+            ...state,
+            bhctx: !isPayloadAnArray ? [action.payload, ...state.bhctx] : action.payload,
+            bhctr: !isPayloadAnArray ? action.payload :(action.payload?.length > 0) && action.payload.at(0) || {},
+            bhctrLoading: false,
+            bhctxLoading:  false,
+          }
+        case ACTIONS_TYPES.editOrRemoveBhctr:
+          const {newArray: bhctx , obj: bhctr} =  addRemoveOrEdit({
             data:  action.payload ,
-            array: state.pregnancies, 
-            id: action?.payload?.pregnancy_id
+            array: state.bhctx, 
+            id: action?.payload?.bhctr_id
           })
           return {
             ...state,
-            pregnancies: pregnancies,
-            pregnancy: pregnancy,
-            pregnancyLoading: false
+            bhctx: bhctx ,
+            bhctr: bhctr,
+            bhctrLoading: false,
+            bhctxLoading:  false
           }
-      case ACTIONS_TYPES.addPregnancies:
-        return {
-          ...state,
-          pregnancies: !isPayloadAnArray  ? [action.payload, ...state.pregnancies] : action.payload,
-          pregnancy: !isPayloadAnArray ? action.payload : {},
-          pregnancyLoading: false,
-          pregnanciesLoading: false
-      };
-      default:
-        return state;
-      }
+        case ACTIONS_TYPES.addUser:
+          return {
+            ...state,
+            user: action.payload,
+            userLoading: false
+          };
+        case ACTIONS_TYPES.addErrorsOrMessages:
+          return {
+            ...state,
+            errorsOrMessages: action.payload,
+            pregnancyLoading: false,
+            pregnanciesLoading: false,
+            userLoading: false 
+          };
+
+          case ACTIONS_TYPES.editOrRemovePregnancy:
+            const {newArray: pregnancies , obj: pregnancy} =  addRemoveOrEdit({
+              data:  action.payload ,
+              array: state.pregnancies, 
+              id: action?.payload?.pregnancy_id
+            })
+            return {
+              ...state,
+              pregnancies: pregnancies,
+              pregnancy: pregnancy,
+              pregnancyLoading: false
+            }
+        case ACTIONS_TYPES.addPregnancies:
+          return {
+            ...state,
+            pregnancies: !isPayloadAnArray  ? [action.payload, ...state.pregnancies] : action.payload,
+            pregnancy: !isPayloadAnArray ? action.payload : {},
+            pregnancyLoading: false,
+            pregnanciesLoading: false
+        };
+        default:
+          return state;
+        }
   };
 

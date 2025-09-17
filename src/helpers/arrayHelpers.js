@@ -1,3 +1,6 @@
+import { createModuleResolutionCache } from "typescript"
+import { calculateTime, date } from "./date"
+
 export const findLastCreatedItem = (arr) => {
     if (arr && arr.length > 0)
         return  arr?.reduce((a, b) => (b.id > a.id ? b : a))
@@ -47,4 +50,12 @@ export const addRemoveOrEdit = ({data,array, id}) => {
       }
     }
   }
+
+export const getFrequency = (arr) => {
+  const dates = []
+  for (let i = arr.length - 1; i >= 0; i-- ) {
+   dates.unshift(calculateTime(arr[i+1]?.created_at, arr[i]?.created_at))
+  }
+  return dates
+}
 

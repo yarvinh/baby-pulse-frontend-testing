@@ -12,12 +12,16 @@ const initialState = {
   pregnancyLoading: false,
   pregnanciesLoading: false,
   kickSessionLoading: false,
-  errorsOrMessages: {}
+  errorsOrMessages: {},
+  bhctx: [],
+  bhctr: {},
+  bhctxLoading: false,
+  bhctrLoading: false,
 }
 
 export const PregnancyProvider = ({ children }) => {
   const [state, dispatch] = useReducer(pregnancyReducer,initialState)
-  const [isRunning, setIsRunning] = useState(false)
+  // const [isRunning, setIsRunning] = useState(false)
   const userPayload = state.user
   const pregnancy = state.pregnancy
   const errorsOrMessages = state.errorsOrMessages
@@ -26,19 +30,27 @@ export const PregnancyProvider = ({ children }) => {
   const kickSession = state.kickSession
   const pregnanciesLoading = state.pregnanciesLoading  
   const kickSessionLoading = state.kickSessionLoading
+  const bhctrLoading = state.bhctrLoading
+  const bhctxLoading = state.bhctxLoading
+  const bhctx = state.bhctx
+  const bhctr = state.bhctr
   const value = {
     kickSessionLoading,
     userPayload,
     pregnancy,
     pregnancies,
     pregnanciesLoading,
+    bhctxLoading,
+    bhctrLoading,
     kickSession,
     kickSessions,
+    bhctx,
+    bhctr,
     errorsOrMessages,
     state,
     dispatch,
-    isRunning, 
-    setIsRunning
+    // isRunning, 
+    // setIsRunning
   }
 //  console.log(state)
   return (

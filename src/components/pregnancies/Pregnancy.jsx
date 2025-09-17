@@ -6,6 +6,8 @@ import { patchFetchAction } from "../../actions/fetchings";
 import KickSessionsContainer from "../../containers/KickSessionsContainer";
 import WeeksAndDaysCount from "./WeeksAndDaysCount";
 import { FETAL_GROWTH_RANGES } from "../../helpers/fetalGrowthRanges";
+import BHCtx from "../bHCtx/bHCtx";
+import BHCtxContainer from "../../containers/BHCtxContainer";
 
 const Pregnancy = ({pregnancy}) => {
   const {weeksRe: weeksReOf40, currentWeeks} = daysWeeksMath(pregnancy.due_date,40)
@@ -80,6 +82,7 @@ const Pregnancy = ({pregnancy}) => {
           </div>
         </div>
         <KickSessionsContainer preg={pregnancy} setShowHistory={setShowHistory} showHistory={showHistory}/>
+        < BHCtxContainer preg={pregnancy} setShowHistory={setShowHistory} showHistory={showHistory}/>
         {showDueDate &&  <SetOrEditPregnancy pregnancy={pregnancy} setShowDueDate={setShowDueDate} edit={true} fetchActions={patchFetchAction}/>}
         {/* {showHistory && <HistoryModal  preg={pregnancy} setShowHistory={setShowHistory}/> } */}
         

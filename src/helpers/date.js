@@ -31,6 +31,7 @@ export const getMovementsAverage = (sessions) => {
     sumOfKicks += sessions[i].movements
     sumOfSeconds += (hours * 60 * 60) + (minutes * 60) + seconds
   }
+
   const kickPerSeconds = sumOfKicks / sumOfSeconds
   const averageInSeconds = Math.floor((10 / kickPerSeconds))
   const hours = Math.floor(averageInSeconds/ 3600);
