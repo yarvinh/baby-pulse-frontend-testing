@@ -100,8 +100,8 @@ const BHCtxContainer = ({preg}) => {
                     </button>
                 </div>  
             </div>
-            <div className="h-36 bg-amber-50 rounded-xl p-4 text-center">
-              {<div className="h-26 bg-amber-50 rounded-xl p-4 text-center">
+            <div className="h-36 mb-4 bg-gradient-to-r from-blue-50 to-teal-50 rounded-xl p-6 text-center">
+              {<div className="rounded-xl  text-center">
                   <div className="flex items-center gap-2 justify-center mb-2">
                       <Timer className="w-4 h-4 text-amber-600" />
                       <span className="text-sm text-gray-600">Last measured </span>
