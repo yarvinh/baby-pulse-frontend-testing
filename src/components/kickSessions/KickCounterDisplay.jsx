@@ -62,16 +62,18 @@ const KickCounterDisplay = ({setShowHistory, preg}) => {
                 </p>}
               </div>
               <div className="space-y-4">
+
                 {isKickSessionTracking && (
                   <div className="bg-amber-50 rounded-xl p-4 text-center">
                     <div className="flex items-center gap-2 justify-center mb-2">
                       <Timer className="w-4 h-4 text-amber-600" />
                       <span className="text-sm text-gray-600">Current Session</span>
                     </div>
-                    {isKickSessionTracking && !kickSessionLoading && <CountUpTimer  dateTime={created_at}/>}
+                    {isKickSessionTracking && <CountUpTimer  dateTime={created_at}/>}
                     <p className="text-2xl font-bold text-amber-600">{formatTime(created_at)}</p>
                   </div>
                 )}
+                
                   {kickSessions?.length > 0 && <div className="bg-green-50 rounded-xl p-4 text-center">
                     <div className="flex items-center gap-2 justify-center mb-2">
                       <Target className="w-4 h-4 text-green-600" />
