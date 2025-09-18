@@ -61,8 +61,8 @@ export const getCurrentTime = () => new Date()
 
 export const  calculateTime = (createAtTime, endTime) =>{
   if (!createAtTime || !endTime) return
-  const rightNowTime = new Date(endTime);
-  const internationalTime = rightNowTime?.toISOString()
+  const timesUp = new Date(endTime);
+  const internationalTime = timesUp?.toISOString()
   const movementSessionTime = new Date(internationalTime)  - new Date(createAtTime)
   const hours = Math.floor(movementSessionTime / (1000 * 60 * 60));
   const minutes = Math.floor((movementSessionTime % (1000 * 60 * 60)) / (1000 * 60))

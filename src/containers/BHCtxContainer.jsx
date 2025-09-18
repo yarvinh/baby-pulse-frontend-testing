@@ -1,6 +1,6 @@
 import { useContext, useEffect,  useState } from "react"
 import { Activity, History, Target, Timer, X } from "lucide-react"
-import { getFrequency } from "../helpers/arrayHelpers"
+import { getFrequency, last4Items } from "../helpers/arrayHelpers"
 import { isLoginSessionActive } from "../helpers/token"
 import { getFetchActions, patchFetchAction, postFetchAction } from "../actions/fetchings"
 import { paths } from "../helpers/paths"
@@ -17,7 +17,6 @@ const BHCtxContainer = ({preg}) => {
   const [showBHCtx, setShowBHCtx] = useState(false)
   const {completed, created_at } = bhctr
   const frequency = getFrequency(bhctx)
-  
   let hasFetched = false
 
   useEffect(()=>{ 
@@ -68,7 +67,7 @@ const BHCtxContainer = ({preg}) => {
     return(
         <div className="mt-20   rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl border border-white/20">
             <div className="h-16">
-            {bhctrLoading && <LoadingItems/>}
+              {bhctrLoading && <LoadingItems/>}
               {errorsOrMessages?.from === 'create_bhctx' || errorsOrMessages?.from === 'edit_bhctx' ? (<ErrorsOrMsg errors={errorsOrMessages?.errors} msg={errorsOrMessages.msg}/>) : null}
             </div>
             <div className="flex items-center justify-between mb-4 sm:mb-6">
@@ -101,15 +100,24 @@ const BHCtxContainer = ({preg}) => {
                     </button>
                 </div>  
             </div>
-
-            <div className="bg-amber-50 rounded-xl p-4 text-center">
-                <div className="flex items-center gap-2 justify-center mb-2">
-                    <Timer className="w-4 h-4 text-amber-600" />
-                    <span className="text-sm text-gray-600">Current Session</span>
-                </div>
-                {bhctr.id && !completed && !bhctrLoading && <CountUpTimer  dateTime={created_at}/>}
-                {bhctr.id && <p className="text-2xl font-bold text-amber-600">{formatTime(created_at)}</p>}
+            <div className="h-36 bg-amber-50 rounded-xl p-4 text-center">
+              {<div className="h-26 bg-amber-50 rounded-xl p-4 text-center">
+                  <div className="flex items-center gap-2 justify-center mb-2">
+                      <Timer className="w-4 h-4 text-amber-600" />
+                      <span className="text-sm text-gray-600">Last measured </span>
+                  </div>
+                  {bhctr.id && !completed && !bhctrLoading && <CountUpTimer  dateTime={created_at}/>}
+                  {bhctr.id && <p className="text-2xl font-bold text-amber-600">{formatTime(created_at)}</p>}
+              </div>}
             </div>
+
+            {bhctx?.length > 0 && <div className="bg-green-50 rounded-xl p-4 text-center">
+              <div className="flex items-center gap-2 justify-center mb-2">
+                <Target className="w-4 h-4 text-green-600" />
+              </div>
+              {<p className="text-1xl text-green-500 mt-1">frequency Average </p> }
+              <p className="text-1xl font-bold text-amber-600"> {last4Items(bhctx)}</p>  
+            </div>}
 
             {showBHCtx && <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
               <div className="bg-white rounded-3xl max-w-md w-full max-h-[80vh] overflow-hidden shadow-2xl">
