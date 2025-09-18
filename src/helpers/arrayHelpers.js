@@ -28,6 +28,8 @@ export const deleteItemFromArray = ({ array, id }) => array.filter(item => item.
 
 export const editItemFromArray = ({array,item}) => array.map(i =>  i.id === item.id ? item : i)
 
+
+
 export const addRemoveOrEdit = ({data,array, id}) => {
     const deletedItemId = findIndexById({array: array,id: data.id})
     const itemIdInTheArray = findIndexById({array: array,id: id})
@@ -48,12 +50,12 @@ export const addRemoveOrEdit = ({data,array, id}) => {
         obj: {}
       }
     }
-  }
+}
 
 export const last4Items = (arr)=>{
   if(arr.length > 3 ){
       let add = 0
-      for (let i = 0; i < 3; i++ ) {
+      for (let i = 0; i < 5; i++ ) {
         if(arr[i]?.created_at && arr[i+1]?.created_at){
           const timeStart = new Date(arr[i]?.created_at);
           const movementSessionTime = new Date(timeStart)  - new Date(arr[i + 1]?.created_at)
@@ -67,15 +69,14 @@ export const last4Items = (arr)=>{
       const time =  `${hours}:${minutes}:${seconds}`
       return changeTimeFormat(time)
     } else {
-      return "You need at least 4 Braxton Hicks contractions to calculate a frequency average. Note that this average is based only on the last 4 contractions."
+      return "You need at least 5 Braxton Hicks contractions to calculate a frequency average. Note that this average is based only on the last 5 contractions."
     }
-
 }
 
 export const getFrequency = (arr) => {
   const dates = []
   for (let i = arr.length - 1; i >= 0; i-- ) {
-   dates.unshift(calculateTime(arr[i+1]?.created_at, arr[i]?.created_at))
+    dates.unshift(calculateTime(arr[i+1]?.created_at, arr[i]?.created_at))
   }
   return dates
 }
