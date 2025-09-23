@@ -16,7 +16,7 @@ import { paths } from "../../helpers/paths";
 import { ACTIONS_TYPES } from "../../actions/actionsHelpers";
 import { sortAsc } from "../../helpers/arrayHelpers";
 
-const Pregnancy = ({pregnancy}) => {
+const TargetsContainer = ({pregnancy}) => {
   const {dispatch, targets} = useContext(PregnancyContext)
   const weeks = sortAsc(targets)
   const {weeksRe: weeksReOf40, currentWeeks, currentDays} = daysWeeksMath(pregnancy.due_date,40)
@@ -127,4 +127,4 @@ const Pregnancy = ({pregnancy}) => {
 
 }
 
-export default Pregnancy
+export default TargetsContainer

@@ -239,3 +239,23 @@
   left: 147px;
   cursor: pointer;
 }
+
+@media (max-width: 639px) {
+  .x-location{
+    position: relative;
+    top: -7px;
+    left: 147px;
+    cursor: pointer;
+  }
+  
+}
+
+@media (min-width: 640px) {
+  .x-location{
+    position: relative;
+    top: -7px;
+    left: 140px;
+    cursor: pointer;
+  }
+  
+}

@@ -73,3 +73,5 @@ export const getFrequency = (arr) => {
   return dates
 }
 
+export const sortAsc = (arr) => arr.sort((wa, wb) => wa.week - wb.week);
+
