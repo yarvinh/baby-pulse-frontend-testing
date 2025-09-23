@@ -232,3 +232,10 @@
   float: right;
   margin-right: 20px;
 }
+
+.x-location{
+  position: relative;
+  top: -7px;
+  left: 147px;
+  cursor: pointer;
+}

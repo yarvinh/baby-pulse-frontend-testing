@@ -21,7 +21,8 @@ const AuthPage = () => {
     confirmPassword: '',
     firstName: '',
     lastName: '',
-    dueDate: ''
+    dueDate: '',
+    username: ''
   });
   // This is temporary until I set up the email validation.”
   // useEffect(()=>{
@@ -82,18 +83,14 @@ const AuthPage = () => {
                     <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <input
                       type="text"
-                      name="email"
-                      value={user.email}
+                      name="username"
+                      value={user.username}
                       onChange={handleInputChange}
-                      className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-colors ${
-                        errors.email ? 'border-red-300 bg-red-50' : 'border-gray-200'
-                      }`}
+                      className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-colors 
+                        border-gray-200`}
                       placeholder="your@email.com"
                     />
                   </div>
-                  {errors.email && (
-                    <p className="text-red-500 text-xs mt-1">{errors.email}</p>
-                  )}
             </div>
             <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -106,9 +103,8 @@ const AuthPage = () => {
                         name="password"
                         value={user.password}
                         onChange={handleInputChange}
-                        className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-colors ${
-                          errors.password ? 'border-red-300 bg-red-50' : 'border-gray-200'
-                        }`}
+                        className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-colors 
+                        border-gray-200`}
                         placeholder="Enter your password"
                       />
 
@@ -120,9 +116,6 @@ const AuthPage = () => {
                         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
-                    {errors.password && (
-                      <p className="text-red-500 text-xs mt-1">{errors.password}</p>
-                    )}
               </div>
               <button
                   type="submit"

@@ -5,7 +5,7 @@ import { isLoginSessionActive } from "../helpers/token"
 import { getFetchActions, patchFetchAction, postFetchAction } from "../actions/fetchings"
 import { paths } from "../helpers/paths"
 import { ACTIONS_TYPES } from "../actions/actionsHelpers"
-import { calculateTime, changeTimeFormat, formatTime, getCurrentTime } from "../helpers/date"
+import { calculateTime, changeTimeFormat, date, formatTime, getCurrentTime } from "../helpers/date"
 import LoadingItems from "../components/LoadingItems"
 import CountUpTimer from "../components/CountUpTimer"
 import BHCtr from "../components/bHCtx/BHCtr"
@@ -54,7 +54,7 @@ const BHCtxContainer = ({preg}) => {
               pregnancy_id: id, 
               completed: true,
               date: getCurrentTime(),
-              duration: calculateTime(bhctr.created_at,getCurrentTime())
+              duration: calculateTime({createAtTime: bhctr.created_at, endTime: getCurrentTime()})
             }, 
             path: `${paths().bhctxPath}/${bhctr?.id}`, 
             dispatch: dispatch, 
@@ -107,7 +107,9 @@ const BHCtxContainer = ({preg}) => {
                       <span className="text-sm text-gray-600">Last measured </span>
                   </div>
                   {bhctr.id && !completed && !bhctrLoading && <CountUpTimer  dateTime={created_at}/>}
-                  {bhctr.id && <p className="text-2xl font-bold text-amber-600">{formatTime(created_at)}</p>}
+                  {bhctr.id && <p className="text-sm text-gray-600">{date(created_at)}</p>}
+                  {bhctr.id && <p className="text-1xl font-bold text-amber-600">{formatTime(created_at)}</p>}
+                  
               </div>}
             </div>
 

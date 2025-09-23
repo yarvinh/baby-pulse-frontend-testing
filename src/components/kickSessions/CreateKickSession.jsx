@@ -30,7 +30,7 @@ const CreateKickSession = ({kickSession, pregnancy_id})=>{
                     movements: kickSession.movements,
                     session_complete: false,
                     time: getCurrentTime(),
-                    duration: calculateTime(kickSession.created_at, kickSession.updated_at)
+                    duration: calculateTime({createAtTime: kickSession.created_at, endTime: kickSession.updated_at})
                 }, 
                 path: `${paths().kickSessions}${isTracking && kickSession? `/${kickSession?.id}` : ""}`, 
                 dispatch: dispatch, 

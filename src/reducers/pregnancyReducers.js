@@ -61,6 +61,32 @@ export const pregnancyReducer = (state, action) => {
           kickSessionLoading: false,
           kickSessionsLoading:  false
         }
+
+
+        case ACTIONS_TYPES.addTarget:
+          return {
+            ...state,
+            targets: !isPayloadAnArray ? [action.payload, ...state.targets] : action.payload,
+            target: !isPayloadAnArray ? action.payload :(action.payload?.length > 0) && action.payload.at(0) || {},
+            targetLoading: false,
+            targetsLoading: false,
+          }
+
+      case ACTIONS_TYPES.editOrRemoveTarget:
+        const {newArray: targets , obj: target} =  addRemoveOrEdit({
+          data:  action.payload ,
+          array: state.targets, 
+          id: action?.payload?.target_id
+        })
+
+        return {
+          ...state,
+          targets: targets,
+          target: target,
+          targetLoading: false,
+          targetsLoading:  false
+        }
+
         case ACTIONS_TYPES.addBhctx:
           return {
             ...state,

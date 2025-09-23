@@ -16,7 +16,10 @@ export const ACTIONS_TYPES = {
     addBhctx: "ADD_BHCTX",
     editOrRemoveBhctr: "EDIT_OR_REMOVE_BHCTR",
     fetchBhctrStart:  "FETCH_BHCTR_START",
-    fetchBhctxStart:  "FETCH_BHCTX_START"
+    fetchBhctxStart:  "FETCH_BHCTX_START",
+    addTarget: "Add_TARGET",
+    editOrRemoveTarget: "EDIT_OR_REMOVE_TARGET",
+    fetchTargetStart: "FETCH_TARGET_START"
 }
 
 

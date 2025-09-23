@@ -1,4 +1,4 @@
-import { calculateTime, changeTimeFormat } from "./date"
+import { calculateIntervalInMs, calculateTime, changeTimeFormat } from "./date"
 
 export const findLastCreatedItem = (arr) => {
     if (arr && arr.length > 0)
@@ -56,18 +56,10 @@ export const last4Items = (arr)=>{
   if(arr.length > 3 ){
       let add = 0
       for (let i = 0; i < 5; i++ ) {
-        if(arr[i]?.created_at && arr[i+1]?.created_at){
-          const timeStart = new Date(arr[i]?.created_at);
-          const movementSessionTime = new Date(timeStart)  - new Date(arr[i + 1]?.created_at)
-          add += movementSessionTime
-        }
+        if(arr[i]?.created_at && arr[i+1]?.created_at)
+          add += calculateIntervalInMs(arr[i]?.created_at,arr[i + 1]?.created_at )
       }
-      const average = add / 3
-      const hours = Math.floor(average / (1000 * 60 * 60));
-      const minutes = Math.floor((average % (1000 * 60 * 60)) / (1000 * 60))
-      const seconds = Math.floor((average % (1000 * 60)) / 1000)
-      const time =  `${hours}:${minutes}:${seconds}`
-      return changeTimeFormat(time)
+      return changeTimeFormat(calculateTime({ms: add/3}))
     } else {
       return "You need at least 5 Braxton Hicks contractions to calculate a frequency average. Note that this average is based only on the last 5 contractions."
     }
@@ -76,7 +68,7 @@ export const last4Items = (arr)=>{
 export const getFrequency = (arr) => {
   const dates = []
   for (let i = arr.length - 1; i >= 0; i-- ) {
-    dates.unshift(calculateTime(arr[i+1]?.created_at, arr[i]?.created_at))
+    dates.unshift(calculateTime({createAtTime: arr[i+1]?.created_at, endTime: arr[i]?.created_at} ))
   }
   return dates
 }

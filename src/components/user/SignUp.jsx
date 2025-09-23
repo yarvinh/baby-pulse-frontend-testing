@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heart, Eye, EyeOff, Mail, Lock, User, Calendar, ArrowLeft } from 'lucide-react';
+import { Heart, Eye, EyeOff, Mail, Lock, User} from 'lucide-react';
 import { useContext } from 'react';
 import { userPostFetchAction } from '../../actions/userActions';
 import { PregnancyContext } from '../../contexts/PregnancyContext';
@@ -30,6 +30,7 @@ const SignUp = ()=>{
     useEffect(()=>{
       isLogin && isLoginSessionActive() && navigate('/')
     },[isLogin])
+    
     // useEffect(()=>{
     //   verification_session && navigate('/verifying_email')
     // },[verification_session])
@@ -49,17 +50,7 @@ const SignUp = ()=>{
     };
   
     const toggleAuthMode = () => {
-      setUser(!isLogin);
-      setUser({
-        email: '',
-        user_name: '',
-        password: '',
-        confirmPassword: '',
-        first_name: '',
-        last_name: '',
-        dueDate: ''
-      });
-      setErrors({});
+      navigate("/login")
     };
 
       return (
@@ -172,7 +163,7 @@ const SignUp = ()=>{
                         value={user.email}
                         onChange={handleInputChange}
                         className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-colors ${
-                          errors.email ? 'border-red-300 bg-red-50' : 'border-gray-200'
+                          email ? 'border-red-300 bg-red-50' : 'border-gray-200'
                         }`}
                         placeholder="your@email.com"
                       />

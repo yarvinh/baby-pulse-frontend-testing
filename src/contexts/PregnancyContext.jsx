@@ -15,13 +15,17 @@ const initialState = {
   errorsOrMessages: {},
   bhctx: [],
   bhctr: {},
+  target: {},
+  targets: [],
   bhctxLoading: false,
   bhctrLoading: false,
+  targetsLoading: false,
+  targetLoading: false,
+
 }
 
 export const PregnancyProvider = ({ children }) => {
   const [state, dispatch] = useReducer(pregnancyReducer,initialState)
-  // const [isRunning, setIsRunning] = useState(false)
   const userPayload = state.user
   const pregnancy = state.pregnancy
   const errorsOrMessages = state.errorsOrMessages
@@ -34,6 +38,11 @@ export const PregnancyProvider = ({ children }) => {
   const bhctxLoading = state.bhctxLoading
   const bhctx = state.bhctx
   const bhctr = state.bhctr
+  const target = state.target
+  const targets = state.targets
+  const targetLoading = state.targetLoading
+  const targetsLoading = state.targetsLoading
+
   const value = {
     kickSessionLoading,
     userPayload,
@@ -46,13 +55,15 @@ export const PregnancyProvider = ({ children }) => {
     kickSessions,
     bhctx,
     bhctr,
+    target,
+    targets,
+    targetLoading,
+    targetsLoading,
     errorsOrMessages,
     state,
-    dispatch,
-    // isRunning, 
-    // setIsRunning
+    dispatch
   }
-//  console.log(state)
+  console.log(state)
   return (
     <PregnancyContext.Provider value={value}>
       {children}

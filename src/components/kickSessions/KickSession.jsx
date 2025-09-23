@@ -12,14 +12,15 @@ const KickSession = ({session}) => {
         const confirmBox = window.confirm(
             "Are you sure you want to delete this session?"     
         )
-        if(confirmBox === true) dispatch(deleteFetchAction({
-            dispatch: dispatch, 
-            path: `${paths().kickSessions}/${id}`,
-            actions: {
-                actionType: ACTIONS_TYPES.editOrRemoveKickSession,
-                loading: ACTIONS_TYPES.fetchKickSessionStart
-            } 
-        }))  
+        if(confirmBox === true) 
+            deleteFetchAction({
+                dispatch: dispatch, 
+                path: `${paths().kickSessions}/${id}`,
+                actions: {
+                    actionType: ACTIONS_TYPES.editOrRemoveKickSession,
+                    loading: ACTIONS_TYPES.fetchKickSessionStart
+                } 
+            }) 
     }
     return (
         <div className="flex items-center justify-between">
@@ -39,7 +40,6 @@ const KickSession = ({session}) => {
                     </div> 
                 </div>
             </div>
-            {/* <ChevronRight className="w-4 h-4 text-gray-400" /> */}
             <button 
             onClick={(e)=>handleOndeleteSession(session.id)}
             className="p-1 hover:bg-red-100 rounded-full transition-colors"

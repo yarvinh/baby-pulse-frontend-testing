@@ -1,7 +1,7 @@
 import { Activity, Clock, History, Target, Timer } from "lucide-react"
 import CountUpTimer from "../CountUpTimer"
 import MovementCount from "./MovementCount"
-import { calculateTime,  changeTimeFormat,  formatTime} from "../../helpers/date"
+import { calculateTime,  changeTimeFormat,  date,  formatTime} from "../../helpers/date"
 import { useContext } from "react"
 import { PregnancyContext } from "../../contexts/PregnancyContext"
 import CreateKickSession from "./CreateKickSession"
@@ -79,8 +79,10 @@ const KickCounterDisplay = ({setShowHistory, preg}) => {
                       <Target className="w-4 h-4 text-green-600" />
                       <span className="text-sm text-gray-600">{movements} Movements Reached</span>
                     </div>
-                    <p className="text-lg font-bold text-green-600">{kickSession?.duration ? changeTimeFormat(kickSession?.duration)  : calculateTime(created_at,updated_at)}</p>
+                    <p className="text-lg font-bold text-green-600">{kickSession?.duration ? changeTimeFormat(kickSession?.duration)  : calculateTime({createAtTime: created_at, endTime:updated_at})}</p>
                     <p className="text-xs text-green-500 mt-1">Last measured </p>
+                    <p className="text-sm text-gray-600">{date(created_at)} </p>
+                    <p className="text-1xl font-bold text-amber-600"> {formatTime(created_at)}</p>
                   </div>}
                 {/* {!isKickSessionTracking && (
                   <div className="bg-gray-50 rounded-xl p-6 text-center">

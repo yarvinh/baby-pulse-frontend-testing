@@ -11,6 +11,7 @@ export const daysWeeksMath = (dueDate, setWeeks) => {
   const setWeeksDiffFrom40 = (40 - setWeeks)
   let today = new Date()
   const due = new Date(dueDate)
+
   const dSameWallClockLocal = new Date(due.getTime() + due.getTimezoneOffset() * 60_000)
   const diffTime =  dSameWallClockLocal.getTime() - today.getTime() 
   const remainingDays = diffTime / (1000 * 60 * 60 * 24) - (setWeeksDiffFrom40 * 7)
@@ -18,15 +19,14 @@ export const daysWeeksMath = (dueDate, setWeeks) => {
   const weeksRe = fixedDstOffset / 7
   return {
     daysRe: Math.max(0, Math.ceil(fixedDstOffset)),
-    weeksRe:  Math.max(0, Math.ceil(weeksRe)),
+    weeksRe: Math.max(0, Math.ceil(weeksRe)),
     currentWeeks: setWeeks - Math.max(0, Math.ceil(weeksRe)), 
     currentDays: 280 - Math.max(0, Math.ceil(fixedDstOffset))
   }
-};
+}
 
 export const getMovementsAverage = (sessions) => {
-  let sumOfSeconds = 0
-  let sumOfKicks = 0
+  let sumOfSeconds = 0, sumOfKicks = 0
   for (let i = 0; i <= sessions.length - 1; i++ ) {
     const [hours, minutes, seconds] = sessions[i].duration?.split(":").map(Number)
     sumOfKicks += sessions[i].movements
@@ -48,25 +48,20 @@ export const formatTime = (dateString) => {
     a.getFullYear() === b.getFullYear() &&
     a.getMonth() === b.getMonth() &&
     a.getDate() === b.getDate()
-
   const time = d.toLocaleTimeString(undefined, { timeStyle: "short" })
-
   if (sameDay(d, now)) return `today at ${time}`;
   const yesterday = new Date(now); yesterday.setDate(now.getDate() - 1)
   if (sameDay(d, yesterday)) return `yesterday at ${time}`
   return `at ${time}`  
 };
 
-export const getCurrentTime = () => new Date()
-
-export const  calculateTime = (createAtTime, endTime) =>{
-  if (!createAtTime || !endTime) return
-  const timesUp = new Date(endTime);
-  const internationalTime = timesUp?.toISOString()
-  const movementSessionTime = new Date(internationalTime)  - new Date(createAtTime)
-  const hours = Math.floor(movementSessionTime / (1000 * 60 * 60));
-  const minutes = Math.floor((movementSessionTime % (1000 * 60 * 60)) / (1000 * 60))
-  const seconds = Math.floor((movementSessionTime % (1000 * 60)) / 1000)
+export const  calculateTime = ({createAtTime, endTime, ms}) =>{
+   const  intervalInMs = (createAtTime && endTime) && calculateIntervalInMs(endTime,createAtTime) 
+   || (ms) && ms
+   if (!intervalInMs) return 
+  const hours = Math.floor(intervalInMs / (1000 * 60 * 60));
+  const minutes = Math.floor((intervalInMs % (1000 * 60 * 60)) / (1000 * 60))
+  const seconds = Math.floor((intervalInMs % (1000 * 60)) / 1000)
   return `${hours}:${minutes}:${seconds}`
 }
 
@@ -78,8 +73,6 @@ export const formatElapsed = (ms) => {
   const pad = (n) => String(n).padStart(2, "0")
   return h > 0 ? `${pad(h)}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`
 }
-
-export const timeToLocal = (created_at) => created_at && new Date(created_at)
 
 export const changeTimeFormat = (time) =>{
    if (time === "0:0:0") return "In progress"
@@ -93,11 +86,17 @@ const fixDstOffset = (constantTime,nowTime,days) => {
   if(constant > now) return days - .041666667
   if(constant < now) return days + .041666667
   return  days
-
 }  
 
-const getOffset = (time) =>{
+const getOffset = (time) => {
   const gmt  = time?.indexOf("GMT")
   const offset = gmt !== -1 ? time?.slice(gmt + 3, gmt + 8) : null;
   return offset &&  Number(offset?.slice(1)?.slice(1,2))
 }
+
+export const getCurrentTime = () => new Date()
+
+export const timeToLocal = (created_at) => created_at && new Date(created_at)
+
+export const calculateIntervalInMs = (first, second) => new Date(first)  - new Date(second)
+

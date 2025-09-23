@@ -1,23 +1,59 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {date, daysWeeksMath} from "../../helpers/date"
-import { Baby, Calendar, Edit3} from 'lucide-react';
+import { Baby, Calendar, Edit3, Target} from 'lucide-react';
 import SetOrEditPregnancy from "./SetOrEditPregnancy";
-import { patchFetchAction } from "../../actions/fetchings";
+import { getFetchActions, patchFetchAction } from "../../actions/fetchings";
 import KickSessionsContainer from "../../containers/KickSessionsContainer";
 import WeeksAndDaysCount from "./WeeksAndDaysCount";
 import { FETAL_GROWTH_RANGES } from "../../helpers/fetalGrowthRanges";
 import BHCtxContainer from "../../containers/BHCtxContainer";
 import { MILESTONES } from "../../helpers/milestoneArr";
+import CreateTarget from "../targets/CreateTarget";
+import { PregnancyContext } from "../../contexts/PregnancyContext";
+import { useEffect } from "react";
+import { isLoginSessionActive } from "../../helpers/token";
+import { paths } from "../../helpers/paths";
+import { ACTIONS_TYPES } from "../../actions/actionsHelpers";
 
 const Pregnancy = ({pregnancy}) => {
+  const {dispatch, targets: weeks} = useContext(PregnancyContext)
   const {weeksRe: weeksReOf40, currentWeeks, currentDays} = daysWeeksMath(pregnancy.due_date,40)
   const weeksIndex = currentWeeks - 15 
   const presentGrowthRange = FETAL_GROWTH_RANGES.at(weeksIndex)
   const {week, length_in: length, weight_range_lb: weightRange, thisWeek, survivalRate } = presentGrowthRange
   const [showDueDate,setShowDueDate] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
-  const weeks = [34,37,40]
+  const [showTarget,setShowTarget] = useState(false)
   const {day: currenday, thisDay: todayMilestone} = MILESTONES[currentDays - 1]
+  
+  let hasFetched = false
+  useEffect(()=>{ 
+    if(hasFetched) return
+    isLoginSessionActive() && getFetchActions({
+        path: paths().targetPath, 
+        dispatch: dispatch,
+        query_string: pregnancy.id, 
+        actions: {
+            actionType: ACTIONS_TYPES.addTarget,
+            loading: ACTIONS_TYPES.fetchTargetsLoading
+        }
+    })
+    hasFetched = true
+  },[dispatch])
+
+  // const handleOnchage = (e) => {
+  //   setTarget((prev) => {
+  //     return{ 
+  //       ...prev, 
+  //       week: e.target.value,
+  //     }
+  //   })
+  // }
+
+  // const handleOnsubmit = (e) => {
+  //   e.preventDefault()
+
+  // }
 
   return (
       <div className="space-y-0 sm:space-y-0">
@@ -32,6 +68,14 @@ const Pregnancy = ({pregnancy}) => {
                 <p className="text-sm text-gray-600">{date(pregnancy.due_date, true)}</p>
               </div>
             </div>
+
+            <button
+              onClick={() => setShowTarget(true)}
+              className="p-2 bg-rose-100 text-rose-700 hover:bg-rose-200 rounded-lg transition-colors"
+            >
+              <Target className="w-4 h-4 text-red-600" />
+            </button>
+
             <button
               onClick={() => setShowDueDate(true)}
               className="p-2 bg-rose-100 text-rose-700 hover:bg-rose-200 rounded-lg transition-colors"
@@ -39,9 +83,10 @@ const Pregnancy = ({pregnancy}) => {
               <Edit3 className="w-4 h-4" />
             </button>
           </div>
-          {weeks.map((w,i)=> {
-            if (currentWeeks < w) {
-              return <WeeksAndDaysCount key={i} weeks={w} preg={pregnancy}/>
+          {weeks.map((w)=> {
+            
+            if (currentWeeks < w.week) {
+              return <WeeksAndDaysCount key={w.id} week={w} preg={pregnancy}/>
             }else{
               <></>
             }
@@ -69,7 +114,6 @@ const Pregnancy = ({pregnancy}) => {
             </p>
           </div>
 
-          {/* Mobile-Optimized Stats Grid */}
           {currentWeeks > 14 && <div className="grid grid-cols-3 gap-2 sm:gap-4">
             <div className="bg-rose-50 rounded-lg sm:rounded-xl p-3 sm:p-4 text-center">
               <p className="text-lg sm:text-2xl font-bold text-rose-600">{length}"</p>
@@ -88,6 +132,7 @@ const Pregnancy = ({pregnancy}) => {
         <KickSessionsContainer preg={pregnancy} setShowHistory={setShowHistory} showHistory={showHistory}/>
         < BHCtxContainer preg={pregnancy} setShowHistory={setShowHistory} showHistory={showHistory}/>
         {showDueDate &&  <SetOrEditPregnancy pregnancy={pregnancy} setShowDueDate={setShowDueDate} edit={true} fetchActions={patchFetchAction}/>}
+        {showTarget && <CreateTarget setShowTarget={setShowTarget} preg={pregnancy}/>}
         {/* {showHistory && <HistoryModal  preg={pregnancy} setShowHistory={setShowHistory}/> } */}
         
       </div>
