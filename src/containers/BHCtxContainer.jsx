@@ -76,7 +76,7 @@ const BHCtxContainer = ({preg}) => {
                   <Activity className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
                 </div>
                 <div>
-                  <h2 className="text-base sm:text-lg font-bold text-gray-800">Braxton Hicks contractions </h2>
+                  <h2 className="text-base sm:text-lg font-bold text-gray-800">Braxton Hicks Contraction </h2>
                 </div>
               </div>
 

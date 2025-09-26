@@ -63,7 +63,6 @@ export const PregnancyProvider = ({ children }) => {
     state,
     dispatch
   }
-  console.log(state)
   return (
     <PregnancyContext.Provider value={value}>
       {children}

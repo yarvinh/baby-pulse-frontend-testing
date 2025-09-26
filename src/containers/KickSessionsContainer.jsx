@@ -14,7 +14,9 @@ import { ACTIONS_TYPES } from "../actions/actionsHelpers";
 import { paths } from "../helpers/paths";
 import LoadingItems from "../components/LoadingItems"
 const KickSessionsContainer = ({preg, setShowHistory, showHistory}) => {
-  const {errorsOrMessages,dispatch,kickSessions,kickSessionLoading} = useContext(PregnancyContext)
+  const {errorsOrMessages,kickSession,dispatch,kickSessions,kickSessionLoading} = useContext(PregnancyContext)
+  const {updated_at} = kickSession
+  // console.log(kickSession)
   let hasFetched = false
   useEffect(()=>{ 
     if(hasFetched) return
@@ -57,6 +59,8 @@ const KickSessionsContainer = ({preg, setShowHistory, showHistory}) => {
                 <CreateKickSession setIsRunning={()=>true}pregnancy_id={preg.id} kickSession={kickSession} fetchActions={postFetchAction} />
               </div> */}
             {/* </div> */}
+
+
              <KickCounterDisplay preg={preg} kickSessions={kickSessions} setShowHistory={setShowHistory}   />
             {showHistory && <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
               <div className="bg-white rounded-3xl max-w-md w-full max-h-[80vh] overflow-hidden shadow-2xl">
@@ -83,7 +87,7 @@ const KickSessionsContainer = ({preg, setShowHistory, showHistory}) => {
             </div>
             {kickSessions?.length > 4 && <div className="p-4 bg-gray-50 text-center">
             <p className="text-sm text-gray-600">
-                Average time to 10 movements: <span className="font-medium text-gray-800">{getMovementsAverage(kickSessions)}</span>
+                Average time to 10 movements: <span className="font-medium text-gray-800">{getMovementsAverage(kickSessions).average}</span>
             </p>
             </div>}
         </div>

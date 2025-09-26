@@ -38,7 +38,10 @@ export const getMovementsAverage = (sessions) => {
   const hours = Math.floor(averageInSeconds/ 3600);
   const minutes = Math.floor((averageInSeconds % 3600) / 60)
   const seconds = averageInSeconds % 60;
-  return `${hours != "0" ? `${hours} h`: ""} ${minutes != "0" ? `${minutes} min` : ""} ${seconds != "0" ?`${seconds} s` : ""} `
+  return {
+    average: `${hours != "0" ? `${hours} h`: ""} ${minutes != "0" ? `${minutes} min` : ""} ${seconds != "0" ?`${seconds} s` : ""}`,
+    averageInMili: averageInSeconds * 1000
+  }
 }
 
 export const formatTime = (dateString) => {
@@ -99,4 +102,5 @@ export const getCurrentTime = () => new Date()
 export const timeToLocal = (created_at) => created_at && new Date(created_at)
 
 export const calculateIntervalInMs = (first, second) => new Date(first)  - new Date(second)
+
 

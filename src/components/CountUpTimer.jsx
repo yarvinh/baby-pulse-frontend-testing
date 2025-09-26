@@ -1,15 +1,26 @@
 import {  useEffect, useMemo, useRef, useState } from "react";
 import { formatElapsed, timeToLocal } from "../helpers/date";
 
-const CountUpTimer = ({dateTime}) => {
+const CountUpTimer = ({dateTime,setBooleanUseState,conditions}) => {
 
   const [elapsedMs, setElapsedMs] = useState(0);
   const [anchorTs, setAnchorTs] = useState(null)
   const intervalRef = useRef(null);
+  const hasBeenCalled = useRef(false)
+
   const start = () => {
     setElapsedMs(0);
     setAnchorTs(timeToLocal(dateTime));
   };
+
+  useEffect(() => {
+    if(conditions){
+      !hasBeenCalled.current && conditions() && console.log("Was called")
+      !hasBeenCalled.current && conditions() && setBooleanUseState(true)
+      if (conditions()) hasBeenCalled.current = true
+    }
+  })
+
   let startClock = false
   useEffect(() => {
     if (!startClock) start()

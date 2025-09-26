@@ -75,8 +75,6 @@ const Pregnancy = ({pregnancy}) => {
           {weeks.map((w)=> { 
             if (currentWeeks < w.week) {
               return <WeeksAndDaysCount key={w.id} week={w} preg={pregnancy}/>
-            }else{
-              return <></>
             }
           })}
         </div>
