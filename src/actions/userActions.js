@@ -1,3 +1,4 @@
+import { INITIAL_STATE } from "../contexts/PregnancyContext"
 import { baseUrl } from "../helpers/authHelpers"
 import { paths } from "../helpers/paths"
 import { removeLoginToken, token } from "../helpers/token"
@@ -62,7 +63,7 @@ export const login = async ({dispatch, user}) => {
       if(!response.ok) throw new Error("something went wrong.")
       const data = await response.json()
       removeLoginToken()
-      dispatch({type: ACTIONS_TYPES.addUser, payload: data})
+      dispatch({type: "LOG_OUT", payload: INITIAL_STATE})
     }catch(err){
       const errors = JSON.parse(err.message) 
       dispatch({type: ACTIONS_TYPES.addErrorsOrMessages, payload: errors.errors_or_messages})
