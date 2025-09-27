@@ -19,7 +19,8 @@ export const ACTIONS_TYPES = {
     fetchBhctxStart:  "FETCH_BHCTX_START",
     addTarget: "Add_TARGET",
     editOrRemoveTarget: "EDIT_OR_REMOVE_TARGET",
-    fetchTargetStart: "FETCH_TARGET_START"
+    fetchTargetStart: "FETCH_TARGET_START",
+    logOut: "LOG_OUT"
 }
 
 

@@ -73,8 +73,8 @@ const Pregnancy = ({pregnancy}) => {
           </div>
 
           {weeks.map((w)=> { 
-            if (currentWeeks < w.week) {
-              return <WeeksAndDaysCount key={w.id} week={w} preg={pregnancy}/>
+            if (currentDays <= w.week * 7) {
+              return <WeeksAndDaysCount key={w.id} week={w} preg={pregnancy} currentWeeks={currentWeeks} currentDays={currentDays}/>
             }
           })}
         </div>

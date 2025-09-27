@@ -143,7 +143,7 @@ export const pregnancyReducer = (state, action) => {
             pregnancyLoading: false,
             pregnanciesLoading: false
         };
-        case "LOG_OUT":
+        case ACTIONS_TYPES.logOut:
           return action.payload 
         default:
           return state;
