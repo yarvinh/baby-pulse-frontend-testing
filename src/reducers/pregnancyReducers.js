@@ -4,7 +4,7 @@ import { addRemoveOrEdit} from "../helpers/arrayHelpers";
 export const pregnancyReducer = (state, action) => {
   const isPayloadAnArray = Array.isArray(action.payload)
     switch (action.type) {
-      case ACTIONS_TYPES.fetchUserSart:
+      case ACTIONS_TYPES.fetchUserStart:
         return { 
           ...state, 
           userLoading: true

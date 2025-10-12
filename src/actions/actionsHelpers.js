@@ -2,7 +2,7 @@ import { ERRORS, FETCH_ERROR } from "../helpers/errors"
 
 
 export const ACTIONS_TYPES = {
-    fetchUserSart: 'FETCH_USER_START',
+    fetchUserStart: 'FETCH_USER_START',
     fetchPregnancyStart: 'FETCH_PREGNANCY_START',
     fetchPregnanciesStart: 'FETCH_PREGNANCIES_START',
     editOrRemovePregnancy: "EDIT_OR_REMOVE_PREGNANCY",

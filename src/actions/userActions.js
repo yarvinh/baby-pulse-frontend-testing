@@ -54,7 +54,7 @@ export const login = async ({dispatch, user}) => {
 
   export const fetchLogOut = async ({dispatch}) => {
     try{
-      dispatch({type: ACTIONS_TYPES.fetchUserSart})
+      dispatch({type: ACTIONS_TYPES.fetchUserStart})
       const response =  await fetch(`${baseUrl()}/logout`,{
         method: "DELETE", 
         headers: token(), 
@@ -72,7 +72,7 @@ export const login = async ({dispatch, user}) => {
 
 export const verifyEmail = async ({user,dispatch}) => {
     try {
-      dispatch({type: ACTIONS_TYPES.fetchUserSart})
+      dispatch({type: ACTIONS_TYPES.fetchUserStart})
       const response = await fetch(`${baseUrl()}${paths().verifyEmail}`, {
         method: "PATCH", 
         withCredentials: true, 
@@ -100,7 +100,7 @@ export const verifyEmail = async ({user,dispatch}) => {
 
 export const requestSecurityCode = async ({dispatch}) => { 
       try { 
-        dispatch({type: ACTIONS_TYPES.fetchUserSart})
+        dispatch({type: ACTIONS_TYPES.fetchUserStart})
         const response = await fetch(`${baseUrl()}${paths().requestSecurityCode}`, {
           method: "PATCH",
           headers: token(), 
@@ -124,7 +124,7 @@ export const requestSecurityCode = async ({dispatch}) => {
 
 export const recoveryPassword= async ({dispatch, username, path } )=> {
   try{
-    dispatch({type: ACTIONS_TYPES.fetchUserSart})
+    dispatch({type: ACTIONS_TYPES.fetchUserStart})
     const response = await fetch(`${baseUrl()}${path}`, {
       method: "POST", 
       withCredentials: true, 
@@ -144,7 +144,7 @@ export const recoveryPassword= async ({dispatch, username, path } )=> {
 
 export const resetUserPassword = async ({dispatch, user,path}) => {
   try {
-    dispatch({type: ACTIONS_TYPES.fetchUserSart})
+    dispatch({type: ACTIONS_TYPES.fetchUserStart})
     const response = await fetch(`${baseUrl()}/${path}`,{
       method: "PATCH",
       withCredentials: true, 

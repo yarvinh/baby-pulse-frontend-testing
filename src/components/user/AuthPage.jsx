@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { Heart, Eye, EyeOff, Mail, Lock} from 'lucide-react';
+import { Heart, Eye, EyeOff, Mail, Lock, X} from 'lucide-react';
 import { Link} from 'react-router-dom'
 import { useContext } from 'react';
-import { login } from '../../actions/userActions';
+import { fetchLogOut, login } from '../../actions/userActions';
 import { PregnancyContext } from '../../contexts/PregnancyContext';
 import { useNavigate } from 'react-router';
 import { useEffect } from 'react';
 import ErrorsOrMsg from '../ErrosOrMsg';
-import { isLoginSessionActive } from '../../helpers/token';
+import { isLoginSessionActive, removeLoginToken } from '../../helpers/token';
 
-const AuthPage = () => {
+const AuthPage = ({setShowAuth}) => {
   const navigate = useNavigate()
-  const {dispatch, userPayload,errorsOrMessages} = useContext(PregnancyContext)
+  const {dispatch, userPayload,errorsOrMessages, userLoading} = useContext(PregnancyContext)
   const { is_login: isLogin, verification_session } = userPayload;
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -49,10 +49,22 @@ const AuthPage = () => {
     login({dispatch: dispatch, user: user})
   };
 
+  const handleOnClick = () => {
+    setShowAuth(false)
+    fetchLogOut({dispatch: dispatch})
+    removeLoginToken()
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50 flex items-center justify-center p-4">
+    <div 
+    className={`
+    ${!isLogin && !isLoginSessionActive() 
+    ? "min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50 flex items-center justify-center p-4": 
+    "fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"}`
+    }>
+
       <div className="w-full max-w-md">
-        <div className="text-center mb-8">
+        {!isLogin && !isLoginSessionActive() && <div className="text-center mb-8">
           <div className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-sm rounded-full px-6 py-3 shadow-lg mb-4">
             <Heart className="w-6 h-6 text-rose-500 fill-rose-500" />
             <h1 className="text-2xl font-bold text-gray-800">BabyBloom</h1>
@@ -60,9 +72,17 @@ const AuthPage = () => {
           <p className="text-gray-600">
           Welcome back to your pregnancy journey
           </p>
-        </div>
+        </div>}
 
         <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-6 sm:p-8 shadow-xl border border-white/20">
+        
+        {!isLogin && isLoginSessionActive() && <button
+          onClick={handleOnClick}
+          className="float-right p-2 hover:bg-gray-100 rounded-full transition-colors"
+        >
+          <X className="w-5 h-5 text-gray-500" />
+        </button>}
+
           <div className="mb-6">
             <h2 className="text-xl font-bold text-gray-800 mb-2">
              Sign In
@@ -133,25 +153,25 @@ const AuthPage = () => {
                 </button>
             </form>
           <br/>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="text-center">
+          {/* <form onSubmit={handleSubmit} className="space-y-4"> */}
+            {!isLogin && !isLoginSessionActive() && <div className="text-center">
               <Link to='/password_recovery' 
                 type="button"
                 className="text-sm text-rose-600 hover:text-rose-700 transition-colors"
               > 
                   Forgot your password?
               </Link>
-            </div>
-          </form>
+            </div>}
+          {/* </form> */}
 
-          <div className="mt-6 pt-6 border-t border-gray-100 text-center">
+          {!isLogin && !isLoginSessionActive() && <div className="mt-6 pt-6 border-t border-gray-100 text-center">
             <p className="text-gray-600 text-sm mb-3">
               Don't have an account?
             </p>
             <Link to="/sign_up" > 
               Create Account 
             </Link>
-          </div>
+          </div>}
         </div>
 
         <div className="text-center mt-6">

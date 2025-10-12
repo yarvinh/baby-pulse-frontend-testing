@@ -16,30 +16,31 @@ const PregnanciesContainer = ()=> {
     const [showDueDate,setShowDueDate] = useState(false)
     const [defaulLoading, setDefaultLoading] = useState(true)
     const {dispatch,pregnancies,errorsOrMessages,pregnanciesLoading, userPayload} = useContext(PregnancyContext)
-    const { is_login: isLogin, user} = userPayload;
+    const { is_login: isLogin, user, reload} = userPayload;
 
     let hasFetched = false
-
     useEffect(()=>{
         !isLoginSessionActive() && !isLogin && navigate('/login')
     },[isLogin])
 
     useEffect(()=>{ 
-        if(hasFetched) return
-        isLoginSessionActive() && getFetchActions({
-            path: paths().pregnancyPath, 
-            dispatch: dispatch,
-            actions: {
-                actionType: ACTIONS_TYPES.addPregnancies,
-                loading: ACTIONS_TYPES.fetchPregnanciesStart
-            }
-        })
-        setDefaultLoading(false)
-        hasFetched = true
-    },[dispatch])
+        if(isLoginSessionActive() && isLogin && !hasFetched){
+            console.log("testing use effect in pregnancyContainer")
+            getFetchActions({
+                path: paths().pregnancyPath, 
+                dispatch: dispatch,
+                actions: {
+                    actionType: ACTIONS_TYPES.addPregnancies,
+                    loading: ACTIONS_TYPES.fetchPregnanciesStart
+                }
+            })
+            hasFetched = true
+            setDefaultLoading(false)
+        }
+    },[dispatch, isLogin])
 
     useEffect(()=>{
-       !defaulLoading && !pregnanciesLoading && pregnancies.length < 1 && setShowDueDate(true)
+       !defaulLoading && !pregnanciesLoading && pregnancies.length < 1 && isLogin && setShowDueDate(true)
     },[pregnanciesLoading])
 
     return (

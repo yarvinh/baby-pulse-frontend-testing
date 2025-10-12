@@ -1,21 +1,26 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { Outlet } from "react-router"
 import { Link } from 'react-router-dom'
 import { PregnancyContext } from "../contexts/PregnancyContext"
 import { fetchLogOut } from "../actions/userActions"
 import { isLoginSessionActive } from "../helpers/token"
 import { House, LogOut } from "lucide-react"
-
+import AuthPage from "./user/AuthPage"
+import { useEffect } from "react"
 const Layout = () => {
-
-    const {dispatch, userPayload} = useContext(PregnancyContext)
-    const { is_login: isLogin} = userPayload;
+    const {dispatch, userPayload,errorsOrMessages} = useContext(PregnancyContext)
+    const { is_login: isLogin, reload} = userPayload;
     const {user} = userPayload
-
+    const [showAuth, setShowAuth] = useState(false)
     const handleOnClick = (e) =>{
         fetchLogOut({dispatch: dispatch})
     }
 
+    useEffect(()=>{
+        if (isLoginSessionActive() && !isLogin)
+        setShowAuth(true)
+    },[isLogin])
+    
     return (
         <div>
             <nav className="nav-bar">
@@ -45,8 +50,10 @@ const Layout = () => {
                     </li>}
                 </ul>
             </nav>
-            
+              {showAuth && !isLogin && reload && <AuthPage setShowAuth={setShowAuth}/>}
            <Outlet/>
+
+
         </div>
     )
 }

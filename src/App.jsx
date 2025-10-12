@@ -25,6 +25,7 @@ function App() {
       path: paths().checkLoginPath,
       dispatch: dispatch, 
       actions:{
+        loading: ACTIONS_TYPES.fetchUserStart,
         actionType: ACTIONS_TYPES.addUser, 
       }
     })

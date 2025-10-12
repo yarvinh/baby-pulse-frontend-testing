@@ -1,6 +1,5 @@
 import { createContext, useReducer, useState} from 'react';
 import { pregnancyReducer } from '../reducers/pregnancyReducers';
-import { isLoginSessionActive } from '../helpers/token';
 export const PregnancyContext = createContext();
 
 export const INITIAL_STATE = {
@@ -43,8 +42,10 @@ export const PregnancyProvider = ({ children }) => {
   const targets = state.targets
   const targetLoading = state.targetLoading
   const targetsLoading = state.targetsLoading
-  console.log(state)
+  const userLoading = state.userLoading
+
   const value = {
+    userLoading,
     kickSessionLoading,
     userPayload,
     pregnancy,
